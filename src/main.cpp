@@ -142,6 +142,7 @@ void pre_auton(void) {
 void autonomous(void) {
 }
 
+// Usecontrol function
 void usercontrol(void) {
   FlywheelFront.setStopping(coast);
   FlywheelBack.setStopping(coast);
