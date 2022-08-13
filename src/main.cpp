@@ -1,3 +1,32 @@
+// ---- START VEXCODE CONFIGURED DEVICES ----
+// Robot Configuration:
+// [Name]               [Type]        [Port(s)]
+// FlywheelFront        motor         1               
+// Controller1          controller                    
+// LeftFront            motor         11              
+// LeftBack             motor         3               
+// RightBack            motor         16              
+// RightFront           motor         20              
+// Intake               motor         10              
+// FlywheelBack         motor         2               
+// Indexer              digital_out   A               
+// Expander             digital_out   B               
+// ---- END VEXCODE CONFIGURED DEVICES ----
+// ---- START VEXCODE CONFIGURED DEVICES ----
+// Robot Configuration:
+// [Name]               [Type]        [Port(s)]
+// FlywheelFront        motor         1               
+// Controller1          controller                    
+// LeftFront            motor         11              
+// LeftBack             motor         3               
+// RightBack            motor         16              
+// RightTop             motor         19              
+// RightFront           motor         20              
+// Intake               motor         10              
+// FlywheelBack         motor         2               
+// Indexer              digital_out   A               
+// Expander             digital_out   B               
+// ---- END VEXCODE CONFIGURED DEVICES ----
 /*----------------------------------------------------------------------------*/
 /*                                                                            */
 /*    Module:       main.cpp                                                  */
@@ -111,10 +140,8 @@ void updateDriveSpeed() {
   J2 = Controller1.Axis2.position(percent);
   J3 = Controller1.Axis3.position(percent);
   LeftFront.spin(forward, J3, pct);
-  LeftTop.spin(forward, J3, pct);
   LeftBack.spin(forward, J3, pct);
   RightFront.spin(forward, J2, pct);
-  RightTop.spin(forward, J2, pct);
   RightBack.spin(forward, J2, pct);
 }
 
