@@ -7,21 +7,6 @@
 /*                                                                            */
 /*----------------------------------------------------------------------------*/
 
-// ---- START VEXCODE CONFIGURED DEVICES ----
-// Robot Configuration:
-// [Name]               [Type]        [Port(s)]
-// FlywheelFront        motor         1               
-// Controller1          controller                    
-// LeftFront            motor         11              
-// LeftBack             motor         3               
-// RightBack            motor         16              
-// RightFront           motor         20              
-// Intake               motor         10              
-// FlywheelBack         motor         2               
-// Indexer              digital_out   A               
-// Expander             digital_out   B               
-// ---- END VEXCODE CONFIGURED DEVICES ----
-
 #include "vex.h"
 
 using namespace vex;
@@ -40,7 +25,7 @@ int printFlywheelSpeed() {
   //Make sure line 3 is clear before using
   while (1) {
     Controller1.Screen.setCursor(3, 0);
-    Controller1.Screen.print("Actual speed: %.2f", FlywheelFront.velocity(rpm));
+    Controller1.Screen.print("Actual speed: %.2f", FlywheelHigher.velocity(rpm));
     task::sleep(200);
   }
   return 0;
@@ -49,11 +34,11 @@ int printFlywheelSpeed() {
 int startFlyWheelInt() {
   Controller1.Screen.clearScreen();
   float maximum = 0;
-  for (int speed = FlywheelFront.velocity(pct); speed <= 100; speed++) {
-    FlywheelFront.spin(fwd, speed, pct);
-    FlywheelBack.spin(fwd, speed, pct);
-    if (FlywheelFront.velocity(rpm) > maximum) {
-      maximum = FlywheelFront.velocity(rpm);
+  for (int speed = FlywheelHigher.velocity(pct); speed <= 100; speed++) {
+    FlywheelHigher.spin(fwd, speed, pct);
+    FlywheelLower.spin(fwd, speed, pct);
+    if (FlywheelHigher.velocity(rpm) > maximum) {
+      maximum = FlywheelHigher.velocity(rpm);
     }
     Controller1.Screen.setCursor(1, 0);
     Controller1.Screen.print("Maximum speed: %.2f", maximum);
@@ -76,9 +61,9 @@ void startFlyWheel() {
 
 void stopFlyWheel() {
   Controller1.Screen.clearScreen();
-  for (int speed = FlywheelFront.velocity(percent); speed >= 0; speed--) {
-    FlywheelFront.spin(fwd, speed, pct);
-    FlywheelBack.spin(fwd, speed, pct);
+  for (int speed = FlywheelHigher.velocity(percent); speed >= 0; speed--) {
+    FlywheelHigher.spin(fwd, speed, pct);
+    FlywheelLower.spin(fwd, speed, pct);
     Controller1.Screen.setCursor(2, 0);
     Controller1.Screen.print("Intended speed: %3d", speed);
     wait(200, msec);
@@ -86,13 +71,13 @@ void stopFlyWheel() {
       return;
     }
   }
-  FlywheelFront.stop();
-  FlywheelBack.stop();
+  FlywheelHigher.stop();
+  FlywheelLower.stop();
 }
 
 void stopFlywheelNow() {
-  FlywheelFront.stop(coast);
-  FlywheelBack.stop(coast);
+  FlywheelHigher.stop(coast);
+  FlywheelLower.stop(coast);
 }
 
 void shoot() {
@@ -116,9 +101,9 @@ void updateDriveSpeed() {
 
 void printBrainInfo() {
   Brain.Screen.setCursor(1,1);
-  Brain.Screen.print("Front Flywheel Temperature: %d", (int) FlywheelFront.temperature(fahrenheit));
+  Brain.Screen.print("Front Flywheel Temperature: %d", (int) FlywheelHigher.temperature(fahrenheit));
   Brain.Screen.setCursor(2,1);
-  Brain.Screen.print("Back Flywheel Temperature: %d", (int) FlywheelBack.temperature(fahrenheit));
+  Brain.Screen.print("Back Flywheel Temperature: %d", (int) FlywheelLower.temperature(fahrenheit));
 }
 
 void switchIntake() {
@@ -139,8 +124,8 @@ void autonomous(void) {
 }
 
 void usercontrol(void) {
-  FlywheelFront.setStopping(coast);
-  FlywheelBack.setStopping(coast);
+  FlywheelHigher.setStopping(coast);
+  FlywheelLower.setStopping(coast);
   Controller1.ButtonR1.pressed(startFlyWheel);
   Controller1.ButtonR2.pressed(stopFlyWheel);
   Controller1.ButtonL1.pressed(switchIntake);
@@ -151,6 +136,9 @@ void usercontrol(void) {
   task flyWheelSpeed(printFlywheelSpeed);
   while (true) {
     updateDriveSpeed();
+    /*Brain.Screen.printAt(0, 70, "J3: %.2f", Controller1.Axis3.position(pct));
+    Brain.Screen.printAt(0, 50, "Back Left Speed: %.2f", LeftBack.velocity(pct));
+    Brain.Screen.printAt(0, 30, "Front Left Speed: %.2f", LeftFront.velocity(pct));*/
     if (brainInfo) {
       printBrainInfo();
     }

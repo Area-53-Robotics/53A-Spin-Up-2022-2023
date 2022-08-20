@@ -1,4 +1,5 @@
 
-53A_2022.v5code
-53A_2022.v5code
-*.v5code
+*.bin
+*.elf
+*.o
+build/53A2022.map
