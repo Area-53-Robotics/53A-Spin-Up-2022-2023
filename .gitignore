@@ -3,3 +3,4 @@
 *.elf
 *.o
 build/53A2022.map
+compile_commands.json
