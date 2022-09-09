@@ -18,6 +18,7 @@ motor Intake = motor(PORT10, ratio6_1, false);
 motor FlywheelLower = motor(PORT15, ratio6_1, true);
 digital_out Indexer = digital_out(Brain.ThreeWirePort.A);
 digital_out Expander = digital_out(Brain.ThreeWirePort.B);
+motor Roller = motor(PORT8, ratio6_1, false);
 
 // VEXcode generated functions
 // define variable for remote controller enable/disable

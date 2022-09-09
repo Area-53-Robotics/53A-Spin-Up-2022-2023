@@ -13,6 +13,7 @@ extern motor Intake;
 extern motor FlywheelLower;
 extern digital_out Indexer;
 extern digital_out Expander;
+extern motor Roller;
 
 /**
  * Used to initialize code/tasks/devices added using tools in VEXcode Pro.

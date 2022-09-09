@@ -1,3 +1,18 @@
+// ---- START VEXCODE CONFIGURED DEVICES ----
+// Robot Configuration:
+// [Name]               [Type]        [Port(s)]
+// FlywheelHigher       motor         1               
+// Controller1          controller                    
+// LeftFront            motor         3               
+// LeftBack             motor         11              
+// RightBack            motor         16              
+// RightFront           motor         19              
+// Intake               motor         10              
+// FlywheelLower        motor         15              
+// Indexer              digital_out   A               
+// Expander             digital_out   B               
+// Roller               motor         8               
+// ---- END VEXCODE CONFIGURED DEVICES ----
 /*----------------------------------------------------------------------------*/
 /*                                                                            */
 /*    Module:       main.cpp                                                  */
