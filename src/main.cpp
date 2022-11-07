@@ -133,8 +133,8 @@ void expand() {
 }
 
 //Drive functions
-float driveCurve(float joystickPosition) {
-  float a = 827.281;
+float driveCurve(float joystickPosition) { //Exponential function with adjustable constants to change curve
+  float a = 827.281; 
   float b = 1.0012;
   float c = -832.237;
   return fabs(joystickPosition) >= 5 ? (fabs(joystickPosition) / joystickPosition) * ((a * pow(b, fabs(joystickPosition))) + c) : 0;
@@ -180,10 +180,10 @@ void move(float length, float speed, bool blocking = true) {
 
 void rotateOneSide(float angle, turnType direction, float initialSpeed = 100) {
   float length = arcLength(angle, turnRadius * 2);
-  float spinDistance = (3.0 / 5) * arcMeasure(length, wheelRadius);
+  float spinDistance = (3.0 / 5) * arcMeasure(length, wheelRadius); //Adjusted for gear ratio
   float distanceSpun;
   float speed = initialSpeed;
-  motor trackedMotor = direction == right ? LeftBack : RightBack;
+  motor trackedMotor = direction == right ? LeftBack : RightBack; //Motor selection
   if (direction == right) {
     LeftFront.spinFor(spinDistance, degrees, speed, velocityUnits::pct, false);
     LeftBack.spinFor(spinDistance, degrees, speed, velocityUnits::pct, false);
@@ -193,7 +193,7 @@ void rotateOneSide(float angle, turnType direction, float initialSpeed = 100) {
     RightBack.spinFor(spinDistance, degrees, speed, velocityUnits::pct, false);
   }
   float initialPosition = trackedMotor.position(degrees);
-  while (!trackedMotor.isDone()) {
+  while (!trackedMotor.isDone()) { //Slow down when approaching target
     distanceSpun = fabs(initialPosition - trackedMotor.position(degrees));
     speed = initialSpeed * ((spinDistance - distanceSpun) / spinDistance);
     if (direction == right) {
