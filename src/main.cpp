@@ -56,9 +56,9 @@ int printFlywheelSpeed() {
   return 0;
 }
 
-void setFlywheelSpeed(float speed) {
-  FlywheelHigher.spin(forward, speed, pct);
-  FlywheelLower.spin(forward, speed, pct);
+void setFlywheelSpeed(float speed, velocityUnits units = velocityUnits::pct) {
+  FlywheelHigher.spin(forward, speed, units);
+  FlywheelLower.spin(forward, speed, units);
 }
 
 void startFlywheel() {
@@ -83,6 +83,17 @@ void decrementFlywheelSpeed() {
   changeFlywheelSpeed(-5);
 }
 
+void slightlyIncrementFlywheelSpeed() {
+  changeFlywheelSpeed(2);
+}
+
+void slightlyDecrementFlywheelSpeed() {
+  changeFlywheelSpeed(-2);
+}
+
+void closestFlywheel() {
+  setFlywheelSpeed(350, rpm);
+}
 
 //Intake functions
 void toggleIntake() {
@@ -94,7 +105,7 @@ void changeIntakeDirection() {
 }
 
 void updateIntake() {
-  if (Controller1.ButtonDown.pressing()) {
+  if (Controller1.ButtonLeft.pressing()) {
     IntakeHigher.spin(intakeDirection ? forward : reverse, 5, pct);
     IntakeLower.spin(intakeDirection ? forward : reverse, 5, pct);
   } else {
@@ -273,10 +284,12 @@ void usercontrol(void) {
   Controller1.ButtonL1.pressed(toggleIntake);
   Controller1.ButtonL2.pressed(changeIntakeDirection);
   Controller1.ButtonB.pressed(shoot);
-  Controller1.ButtonUp.pressed(expand);
   Controller1.ButtonX.pressed(stopFlywheel);
   Controller1.ButtonA.pressed(startFlywheel);
   Controller1.ButtonY.pressed(spinRoller);
+  Controller1.ButtonRight.pressed(closestFlywheel);
+  Controller1.ButtonUp.pressed(slightlyIncrementFlywheelSpeed);
+  Controller1.ButtonDown.pressed(slightlyDecrementFlywheelSpeed);
   task flyWheelSpeed(printFlywheelSpeed);
   setDriveStopping(brake);
   while (true) {
