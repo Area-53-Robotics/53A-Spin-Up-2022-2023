@@ -114,9 +114,13 @@ void updateIntake() {
   }
 }
 
+void rotateRoller(float angle) {
+  IntakeHigher.spinFor(forward, angle, degrees, 100, velocityUnits::pct, false);
+  IntakeLower.spinFor(forward, angle, degrees, 100, velocityUnits::pct, false);
+}
+
 void spinRoller() {
-  IntakeHigher.spinFor(forward, 180, degrees, 100, velocityUnits::pct, false);
-  IntakeLower.spinFor(forward, 180, degrees, 100, velocityUnits::pct, false);
+  rotateRoller(360);
 }
 
 //Info functions
@@ -145,9 +149,9 @@ void expand() {
 
 //Drive functions
 float driveCurve(float joystickPosition) {
-  float a = 827.281;
-  float b = 1.0012;
-  float c = -832.237;
+  float a = 3.53231;
+  float b = 1.03442;
+  float c = -4.18356;
   return fabs(joystickPosition) >= 5 ? (fabs(joystickPosition) / joystickPosition) * ((a * pow(b, fabs(joystickPosition))) + c) : 0;
 }
 
@@ -176,6 +180,13 @@ void setDriveStopping(brakeType stopType) {
   LeftBack.setStopping(stopType);
   RightFront.setStopping(stopType);
   RightBack.setStopping(stopType);
+}
+
+void  setDriveTimeout(float time) {
+  LeftFront.setTimeout(time, seconds);
+  LeftBack.setTimeout(time, seconds);
+  RightFront.setTimeout(time, seconds);
+  RightBack.setTimeout(time, seconds);
 }
 
 //Auton support functions
@@ -244,15 +255,45 @@ void rotateBothSides(float angle, turnType direction, float initialSpeed = 100) 
 
 //Auton functions
 void rightSimple() {
-  setFlywheelSpeed(70);
-  move(-20, 60);
+  setFlywheelSpeed(73);
   wait(0.5, seconds);
-  rotateOneSide(-25, left, 30);
+  rotateOneSide(-22, left, 30);
   wait(5, seconds);
   shoot();
-  setFlywheelSpeed(68);
+  setFlywheelSpeed(70);
   wait(2, seconds);
   shoot();
+}
+
+void skills() {
+  startFlywheel();
+  setDriveTimeout(5);
+  move(3, 20);
+  rotateRoller(150);
+  wait(3, seconds);
+  shoot();
+  wait(1, seconds);
+  shoot();
+  wait(0.5, seconds);
+  move(-20, 100);
+  wait(0.5, seconds);
+  rotateBothSides(90, left);
+  wait(0.5, seconds);
+  move(10, 100);
+}
+
+void lowGoal() {
+  startFlywheel();
+  wait(5, seconds);
+  shoot();
+  wait(3, seconds);
+  shoot();
+}
+
+void roller() {
+  setDriveTimeout(5);
+  move(1.5, 20);
+  rotateRoller(360);
 }
 
 void pre_auton(void) {
@@ -268,7 +309,10 @@ void autonomous(void) {
   IntakeHigher.setStopping(coast);
   IntakeLower.setStopping(coast);
   setDriveStopping(hold);
-  rightSimple();
+  //rightSimple();
+  //skills();
+  //lowGoal();
+  roller();
 }
 
 void usercontrol(void) {
