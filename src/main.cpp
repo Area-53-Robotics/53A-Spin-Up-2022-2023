@@ -147,6 +147,17 @@ void expand() {
   Expander.set(true);
 }
 
+void calibrate() {
+  InertialSensor.startCalibration();
+  Brain.Screen.clearScreen();
+  Brain.Screen.printAt(0, 0, "Inertial sensor calibrating...");
+  while (InertialSensor.isCalibrating()) {
+    wait(10, msec);
+  }
+  Brain.Screen.clearScreen();
+  Brain.Screen.printAt(0, 0, "Calibration complete!");
+}
+
 //Drive functions
 float driveCurve(float joystickPosition) { //Exponential function with adjustable constants to change curve
   float a = 3.53231;
@@ -200,7 +211,7 @@ void move(float length, float speed, bool blocking = true) {
   RightBack.spinFor(spinDistance, degrees, speed, velocityUnits::pct, blocking);
 }
 
-void rotateOneSide(float angle, turnType direction, float initialSpeed = 100) {
+void rotateOneSideEncoder(float angle, turnType direction, float initialSpeed) {
   float length = arcLength(angle, turnRadius * 2);
   float spinDistance = (3.0 / 5) * arcMeasure(length, wheelRadius); //Adjusted for gear ratio
   float distanceSpun;
@@ -230,7 +241,7 @@ void rotateOneSide(float angle, turnType direction, float initialSpeed = 100) {
   stopDrive();
 }
 
-void rotateBothSides(float angle, turnType direction, float initialSpeed = 100) {
+void rotateBothSidesEncoder(float angle, turnType direction, float initialSpeed) {
   float length = arcLength(angle, turnRadius);
   float spinDistance = (3.0 / 5) * arcMeasure(length, wheelRadius);
   float speed = initialSpeed;
@@ -253,7 +264,71 @@ void rotateBothSides(float angle, turnType direction, float initialSpeed = 100) 
   stopDrive();
 }
 
+void rotateOneSideInertial(float angle, turnType direction, float initialSpeed) {
+  float speed = initialSpeed;
+  float currentAngle = 0;
+  InertialSensor.resetRotation();
+  while (fabs(angle - currentAngle) < 1) {
+    currentAngle = InertialSensor.angle();
+    speed = initialSpeed * ((angle - currentAngle) / angle);
+    Controller1.Screen.setCursor(3, 0);
+    Controller1.Screen.print(speed);
+    if (direction == right) {
+      LeftFront.spin(forward, speed, pct);
+      LeftBack.spin(forward, speed, pct);
+    }
+    if (direction == left) {
+      RightFront.spin(forward, speed, pct);
+      RightBack.spin(forward, speed, pct);
+    }
+  }
+  stopDrive();
+}
+
+void rotateBothSidesInertial(float angle, turnType direction, float initialSpeed) {
+  float speed = initialSpeed;
+  float currentAngle = 0;
+  InertialSensor.resetRotation();
+  while (fabs(angle - currentAngle) < 1) {
+    currentAngle = InertialSensor.angle();
+    speed = initialSpeed * ((angle - currentAngle) / angle);
+    Controller1.Screen.setCursor(3, 0);
+    Controller1.Screen.print(speed);
+    LeftFront.spin(direction == right ? forward : reverse, speed, pct);
+    LeftBack.spin(direction == right ? forward : reverse, speed, pct);
+    RightFront.spin(direction == left ? forward : reverse, speed, pct);
+    RightBack.spin(direction == left ? forward : reverse, speed, pct);
+  }
+  stopDrive();
+}
+
+void rotateOneSide(float angle, turnType direction, float initialSpeed = 100, float inertial = true) {
+  if (inertial) {
+    rotateOneSideInertial(angle, direction, initialSpeed);
+  } else {
+    rotateOneSideEncoder(angle, direction, initialSpeed);
+  }
+}
+
+void rotateBothSides(float angle, turnType direction, float initialSpeed = 100, float inertial = true) {
+  if (inertial) {
+    rotateBothSidesInertial(angle, direction, initialSpeed);
+  } else {
+    rotateBothSidesEncoder(angle, direction, initialSpeed);
+  }
+}
+
 //Auton functions
+void test() {
+  rotateBothSides(90, left, 50);
+  wait(1, seconds);
+  rotateBothSides(90, right, 50);
+  wait(1, seconds);
+  rotateOneSide(90, left, 50);
+  wait(1, seconds);
+  rotateOneSide(90, right, 50);
+  wait(1, seconds);
+}
 void rightSimple() {
   setFlywheelSpeed(73);
   wait(0.5, seconds);
@@ -301,6 +376,7 @@ void pre_auton(void) {
   vexcodeInit();
   Indexer.set(false);
   Expander.set(false);
+  Brain.Screen.pressed(calibrate);
 }
 
 void autonomous(void) {
@@ -309,10 +385,10 @@ void autonomous(void) {
   IntakeHigher.setStopping(coast);
   IntakeLower.setStopping(coast);
   setDriveStopping(hold);
-  //rightSimple();
-  //skills();
-  //lowGoal();
-  roller();
+  while (InertialSensor.isCalibrating()) {
+    wait(10, msec);
+  }
+  test();
 }
 
 void usercontrol(void) {

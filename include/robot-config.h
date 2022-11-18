@@ -15,6 +15,7 @@ extern digital_out Indexer;
 extern digital_out Expander;
 extern motor IntakeLower;
 extern rotation FlywheelSensor;
+extern inertial InertialSensor;
 
 /**
  * Used to initialize code/tasks/devices added using tools in VEXcode Pro.

@@ -20,6 +20,7 @@ digital_out Indexer = digital_out(Brain.ThreeWirePort.A);
 digital_out Expander = digital_out(Brain.ThreeWirePort.B);
 motor IntakeLower = motor(PORT3, ratio6_1, true);
 rotation FlywheelSensor = rotation(PORT10, false);
+inertial InertialSensor = inertial(PORT20);
 
 // VEXcode generated functions
 // define variable for remote controller enable/disable
