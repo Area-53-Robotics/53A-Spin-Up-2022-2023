@@ -2,5 +2,6 @@
 *.bin
 *.elf
 *.o
+*.mk
 build/53A2022.map
 compile_commands.json
