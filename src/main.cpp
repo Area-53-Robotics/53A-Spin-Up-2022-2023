@@ -136,6 +136,21 @@ void toggleBrainInfo() {
   brainInfo = !brainInfo;
 }
 
+void printMotorTemperature() {
+  Brain.Screen.clearScreen();
+  while (!Brain.Screen.pressing()) {
+    Brain.Screen.setCursor(1, 1);
+    Brain.Screen.print("Left front: %f", LeftFront.temperature());
+    Brain.Screen.setCursor(2, 1);
+    Brain.Screen.print("Left back: %f", LeftBack.temperature());
+    Brain.Screen.setCursor(3, 1);
+    Brain.Screen.print("Right front: %f", RightFront.temperature());
+    Brain.Screen.setCursor(4, 1);
+    Brain.Screen.print("Right back: %f", RightBack.temperature());
+  }
+  Brain.Screen.clearScreen();
+}
+
 //Miscellaneous functions
 void shoot() {
   Indexer.set(true);
@@ -156,6 +171,14 @@ void calibrate() {
   }
   Brain.Screen.clearScreen();
   Brain.Screen.printAt(0, 0, "Calibration complete!");
+}
+
+void brainPressEvent() {
+  if (Brain.Screen.xPosition() < 240) {
+    calibrate();
+  } else {
+    printMotorTemperature();
+  }
 }
 
 //Drive functions
@@ -376,7 +399,7 @@ void pre_auton(void) {
   vexcodeInit();
   Indexer.set(false);
   Expander.set(false);
-  Brain.Screen.pressed(calibrate);
+  Brain.Screen.pressed(brainPressEvent);
 }
 
 void autonomous(void) {
@@ -385,9 +408,7 @@ void autonomous(void) {
   IntakeHigher.setStopping(coast);
   IntakeLower.setStopping(coast);
   setDriveStopping(hold);
-  while (InertialSensor.isCalibrating()) {
-    wait(10, msec);
-  }
+  calibrate();
   test();
 }
 
