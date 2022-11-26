@@ -9,6 +9,7 @@
 
 #include "vex.h"
 #include <cmath>
+#include <string>
 
 using namespace vex;
 
@@ -21,6 +22,7 @@ float J3;
 bool intakeMode = false;
 bool intakeDirection = true;
 bool brainInfo = false;
+int selectedAuton = 0;
 const float wheelRadius = 3.25 / 2;
 const float driveWidth = 13;
 const float driveLength = 12;
@@ -155,6 +157,51 @@ void printMotorTemperature() {
   Brain.Screen.clearScreen();
 }
 
+void printAutonDescription() {
+  std::string autonDescription;
+  switch (selectedAuton) {
+    case 0:
+    autonDescription = "None";
+    break;
+
+    case 1:
+    autonDescription = "Testing";
+    break;
+
+    case 2:
+    autonDescription = "Right side, preloads to high goal";
+    break;
+
+    case 3:
+    autonDescription = "Skills";
+    break;
+
+    case 4:
+    autonDescription = "Preloads to low goal";
+    break;
+
+    case 5:
+    autonDescription = "Spin roller";
+    break;
+
+    default:
+    autonDescription = "Index out of bounds";
+    break;
+  }
+  Brain.Screen.setCursor(12, 1);
+  Brain.Screen.clearLine();
+  Brain.Screen.print("Auton: %s", autonDescription);
+}
+
+void changeAuton() { //Auton selector
+  if (selectedAuton >= 5) {
+    selectedAuton = 0;
+  } else {
+    selectedAuton++;
+  }
+  printAutonDescription();
+}
+
 //Miscellaneous functions
 void shoot() {
   Indexer.set(true);
@@ -178,14 +225,17 @@ void calibrate() {
 }
 
 void drawPreautonMenu() {
-  Brain.Screen.clearScreen();
+  Brain.Screen.clearScreen("000040");
   Brain.Screen.setPenColor(white);
-  Brain.Screen.drawLine(50, 0, 52, 240);
+  Brain.Screen.drawLine(50, 0, 52, 218);
   Brain.Screen.drawLine(0, 119, 50, 121);
+  Brain.Screen.drawLine(0, 216, 50, 218);
   Brain.Screen.setCursor(4, 2);
   Brain.Screen.print("Calibrate inertial sensor");
   Brain.Screen.setCursor(9, 2);
   Brain.Screen.print("Print drive motor temperatures");
+  Brain.Screen.setCursor(5, 25);
+  Brain.Screen.print("Switch auton");
 }
 
 void brainPressEvent() {
@@ -195,6 +245,8 @@ void brainPressEvent() {
     } else {
     printMotorTemperature();
     }
+  } else {
+    changeAuton();
   }
 }
 
@@ -381,7 +433,7 @@ void rotateBothSides(float angle, turnType direction, float initialSpeed = 100, 
 }
 
 //Auton functions
-void test() {
+void test() { //1
   rotateBothSides(90, left, 50);
   wait(1, seconds);
   rotateBothSides(90, right, 50);
@@ -391,7 +443,7 @@ void test() {
   rotateOneSide(90, right, 50);
   wait(1, seconds);
 }
-void rightSimple() {
+void rightSimple() { //2
   setFlywheelSpeed(73);
   wait(0.5, seconds);
   rotateOneSide(-22, left, 30);
@@ -402,7 +454,7 @@ void rightSimple() {
   shoot();
 }
 
-void skills() {
+void skills() { //3
   startFlywheel();
   setDriveTimeout(5);
   move(3, 20);
@@ -419,7 +471,7 @@ void skills() {
   move(10, 100);
 }
 
-void lowGoal() {
+void lowGoal() { //4
   startFlywheel();
   wait(5, seconds);
   shoot();
@@ -427,7 +479,7 @@ void lowGoal() {
   shoot();
 }
 
-void roller() {
+void roller() { //5
   setDriveTimeout(5);
   move(1.5, 20);
   rotateRoller(360);
@@ -448,7 +500,27 @@ void autonomous(void) {
   //IntakeLower.setStopping(coast);
   setDriveStopping(hold);
   calibrate();
-  test();
+  switch (selectedAuton) {
+    case 1:
+    test();
+    break;
+
+    case 2:
+    rightSimple();
+    break;
+
+    case 3:
+    skills();
+    break;
+
+    case 4:
+    lowGoal();
+    break;
+
+    case 5:
+    roller();
+    break;
+  }
 }
 
 void usercontrol(void) {
