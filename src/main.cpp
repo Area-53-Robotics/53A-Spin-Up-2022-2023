@@ -48,7 +48,7 @@ int printFlywheelSpeed() {
   //Make sure line 3 is clear before using
   while (1) {
     Controller1.Screen.setCursor(2, 0);
-    Controller1.Screen.print("Motor speed: %.2f", FlywheelHigher.velocity(rpm));
+    Controller1.Screen.print("Motor speed: %.2f", Flywheel.velocity(rpm));
     Controller1.Screen.setCursor(3, 0);
     Controller1.Screen.print("Sensor speed: %.2f", FlywheelSensor.velocity(rpm));
     task::sleep(100);
@@ -57,8 +57,8 @@ int printFlywheelSpeed() {
 }
 
 void setFlywheelSpeed(float speed, velocityUnits units = velocityUnits::pct) {
-  FlywheelHigher.spin(forward, speed, units);
-  FlywheelLower.spin(forward, speed, units);
+  Flywheel.spin(forward, speed, units);
+  //FlywheelLower.spin(forward, speed, units);
 }
 
 void startFlywheel() {
@@ -66,12 +66,12 @@ void startFlywheel() {
 }
 
 void stopFlywheel() {
-  FlywheelHigher.stop(coast);
-  FlywheelLower.stop(coast);
+  Flywheel.stop(coast);
+  //FlywheelLower.stop(coast);
 }
 
 void changeFlywheelSpeed(float speedDifference) {
-  float speed = FlywheelHigher.velocity(percent);
+  float speed = Flywheel.velocity(percent);
   setFlywheelSpeed(speed + speedDifference);
 }
 
@@ -106,17 +106,17 @@ void changeIntakeDirection() {
 
 void updateIntake() {
   if (Controller1.ButtonLeft.pressing()) {
-    IntakeHigher.spin(intakeDirection ? forward : reverse, 5, pct);
-    IntakeLower.spin(intakeDirection ? forward : reverse, 5, pct);
+    Intake.spin(intakeDirection ? forward : reverse, 5, pct);
+    //IntakeLower.spin(intakeDirection ? forward : reverse, 5, pct);
   } else {
-    IntakeHigher.spin(intakeDirection ? forward : reverse, intakeMode ? 100 : 0, pct);
-    IntakeLower.spin(intakeDirection ? forward : reverse, intakeMode ? 100 : 0, pct);
+    Intake.spin(intakeDirection ? forward : reverse, intakeMode ? 100 : 0, pct);
+    //IntakeLower.spin(intakeDirection ? forward : reverse, intakeMode ? 100 : 0, pct);
   }
 }
 
 void rotateRoller(float angle) {
-  IntakeHigher.spinFor(forward, angle, degrees, 100, velocityUnits::pct, false);
-  IntakeLower.spinFor(forward, angle, degrees, 100, velocityUnits::pct, false);
+  Intake.spinFor(forward, angle, degrees, 100, velocityUnits::pct, false);
+  //IntakeLower.spinFor(forward, angle, degrees, 100, velocityUnits::pct, false);
 }
 
 void spinRoller() {
@@ -126,9 +126,9 @@ void spinRoller() {
 //Info functions
 void printFlywheelTemperature() {
   Brain.Screen.setCursor(1,1);
-  Brain.Screen.print("Front Flywheel Temperature: %d", (int) FlywheelHigher.temperature(fahrenheit));
-  Brain.Screen.setCursor(2,1);
-  Brain.Screen.print("Back Flywheel Temperature: %d", (int) FlywheelLower.temperature(fahrenheit));
+  Brain.Screen.print("Flywheel Temperature: %d", (int) Flywheel.temperature(fahrenheit));
+  /* Brain.Screen.setCursor(2,1);
+  Brain.Screen.print("Back Flywheel Temperature: %d", (int) FlywheelLower.temperature(fahrenheit)); */
 }
 
 void toggleBrainInfo() {
@@ -142,9 +142,13 @@ void printMotorTemperature() {
     Brain.Screen.setCursor(1, 1);
     Brain.Screen.print("Left front: %f", LeftFront.temperature());
     Brain.Screen.setCursor(2, 1);
+    Brain.Screen.print("Left top: %f", LeftTop.temperature());
+    Brain.Screen.setCursor(2, 1);
     Brain.Screen.print("Left back: %f", LeftBack.temperature());
     Brain.Screen.setCursor(3, 1);
     Brain.Screen.print("Right front: %f", RightFront.temperature());
+    Brain.Screen.setCursor(4, 1);
+    Brain.Screen.print("Right top: %f", RightTop.temperature());
     Brain.Screen.setCursor(4, 1);
     Brain.Screen.print("Right back: %f", RightBack.temperature());
   }
@@ -173,11 +177,24 @@ void calibrate() {
   Brain.Screen.printAt(0, 0, "Calibration complete!");
 }
 
+void drawPreautonMenu() {
+  Brain.Screen.clearScreen();
+  Brain.Screen.setPenColor(white);
+  Brain.Screen.drawLine(50, 0, 52, 240);
+  Brain.Screen.drawLine(0, 119, 50, 121);
+  Brain.Screen.setCursor(4, 2);
+  Brain.Screen.print("Calibrate inertial sensor");
+  Brain.Screen.setCursor(9, 2);
+  Brain.Screen.print("Print drive motor temperatures");
+}
+
 void brainPressEvent() {
-  if (Brain.Screen.xPosition() < 240) {
-    calibrate();
-  } else {
+  if (Brain.Screen.xPosition() <= 51) {
+    if (Brain.Screen.yPosition() <= 120) {
+      calibrate();
+    } else {
     printMotorTemperature();
+    }
   }
 }
 
@@ -197,29 +214,37 @@ void updateDriveSpeed() {
   //Controller1.Screen.setCursor(1, 0);
   //Controller1.Screen.print("%f, %f", leftSpeed, rightSpeed);
   LeftFront.spin(forward, leftSpeed, pct);
+  LeftTop.spin(forward, leftSpeed, pct);
   LeftBack.spin(forward, leftSpeed, pct);
   RightFront.spin(forward, rightSpeed, pct);
+  RightTop.spin(forward, rightSpeed, pct);
   RightBack.spin(forward, rightSpeed, pct);
 }
 
 void stopDrive() {
   LeftFront.stop();
+  LeftTop.stop();
   LeftBack.stop();
   RightFront.stop();
+  RightTop.stop();
   RightBack.stop();
 }
 
 void setDriveStopping(brakeType stopType) {
   LeftFront.setStopping(stopType);
+  LeftTop.setStopping(stopType);
   LeftBack.setStopping(stopType);
   RightFront.setStopping(stopType);
+  RightTop.setStopping(stopType);
   RightBack.setStopping(stopType);
 }
 
 void  setDriveTimeout(float time) {
   LeftFront.setTimeout(time, seconds);
+  LeftTop.setTimeout(time, seconds);
   LeftBack.setTimeout(time, seconds);
   RightFront.setTimeout(time, seconds);
+  RightTop.setTimeout(time, seconds);
   RightBack.setTimeout(time, seconds);
 }
 
@@ -229,8 +254,10 @@ void move(float length, float speed, bool blocking = true) {
   Controller1.Screen.setCursor(3, 0);
   Controller1.Screen.print(spinDistance);
   LeftFront.spinFor(spinDistance, degrees, speed, velocityUnits::pct, false);
+  LeftTop.spinFor(spinDistance, degrees, speed, velocityUnits::pct, false);
   LeftBack.spinFor(spinDistance, degrees, speed, velocityUnits::pct, false);
   RightFront.spinFor(spinDistance, degrees, speed, velocityUnits::pct, false);
+  RightTop.spinFor(spinDistance, degrees, speed, velocityUnits::pct, false);
   RightBack.spinFor(spinDistance, degrees, speed, velocityUnits::pct, blocking);
 }
 
@@ -242,10 +269,12 @@ void rotateOneSideEncoder(float angle, turnType direction, float initialSpeed) {
   motor trackedMotor = direction == right ? LeftBack : RightBack; //Motor selection
   if (direction == right) {
     LeftFront.spinFor(spinDistance, degrees, speed, velocityUnits::pct, false);
+    LeftTop.spinFor(spinDistance, degrees, speed, velocityUnits::pct, false);
     LeftBack.spinFor(spinDistance, degrees, speed, velocityUnits::pct, false);
   } 
   if (direction == left) {
     RightFront.spinFor(spinDistance, degrees, speed, velocityUnits::pct, false);
+    RightTop.spinFor(spinDistance, degrees, speed, velocityUnits::pct, false);
     RightBack.spinFor(spinDistance, degrees, speed, velocityUnits::pct, false);
   }
   float initialPosition = trackedMotor.position(degrees);
@@ -254,10 +283,12 @@ void rotateOneSideEncoder(float angle, turnType direction, float initialSpeed) {
     speed = initialSpeed * ((spinDistance - distanceSpun) / spinDistance);
     if (direction == right) {
       LeftFront.setVelocity(speed, pct);
+      LeftTop.setVelocity(speed, pct);
       LeftBack.setVelocity(speed, pct);
     }
     if (direction == left) {
       RightFront.setVelocity(speed, pct);
+      RightTop.setVelocity(speed, pct);
       RightBack.setVelocity(speed, pct);
     }
   }
@@ -271,8 +302,10 @@ void rotateBothSidesEncoder(float angle, turnType direction, float initialSpeed)
   float initialPosition = RightBack.position(degrees);
   float distanceSpun;
   LeftFront.spinFor(direction == left ? reverse : forward, spinDistance, degrees, speed, velocityUnits::pct, false);
+  LeftTop.spinFor(direction == left ? reverse : forward, spinDistance, degrees, speed, velocityUnits::pct, false);
   LeftBack.spinFor(direction == left ? reverse : forward, spinDistance, degrees, speed, velocityUnits::pct, false);
   RightFront.spinFor(direction == right ? reverse : forward, spinDistance, degrees, speed, velocityUnits::pct, false);
+  RightTop.spinFor(direction == right ? reverse : forward, spinDistance, degrees, speed, velocityUnits::pct, false);
   RightBack.spinFor(direction == right ? reverse : forward, spinDistance, degrees, speed, velocityUnits::pct, false);
   while (!RightBack.isDone()) {
     distanceSpun = fabs(initialPosition - RightBack.position(degrees));
@@ -280,8 +313,10 @@ void rotateBothSidesEncoder(float angle, turnType direction, float initialSpeed)
     Controller1.Screen.setCursor(3, 0);
     Controller1.Screen.print(speed);
     LeftFront.setVelocity(speed, pct);
+    LeftTop.setVelocity(speed, pct);
     LeftBack.setVelocity(speed, pct);
     RightFront.setVelocity(speed, pct);
+    RightTop.setVelocity(speed, pct);
     RightBack.setVelocity(speed, pct);
   }
   stopDrive();
@@ -298,10 +333,12 @@ void rotateOneSideInertial(float angle, turnType direction, float initialSpeed) 
     Controller1.Screen.print(speed);
     if (direction == right) {
       LeftFront.spin(forward, speed, pct);
+      LeftTop.spin(forward, speed, pct);
       LeftBack.spin(forward, speed, pct);
     }
     if (direction == left) {
       RightFront.spin(forward, speed, pct);
+      RightTop.spin(forward, speed, pct);
       RightBack.spin(forward, speed, pct);
     }
   }
@@ -318,8 +355,10 @@ void rotateBothSidesInertial(float angle, turnType direction, float initialSpeed
     Controller1.Screen.setCursor(3, 0);
     Controller1.Screen.print(speed);
     LeftFront.spin(direction == right ? forward : reverse, speed, pct);
+    LeftTop.spin(direction == right ? forward : reverse, speed, pct);
     LeftBack.spin(direction == right ? forward : reverse, speed, pct);
     RightFront.spin(direction == left ? forward : reverse, speed, pct);
+    RightTop.spin(direction == left ? forward : reverse, speed, pct);
     RightBack.spin(direction == left ? forward : reverse, speed, pct);
   }
   stopDrive();
@@ -405,8 +444,8 @@ void pre_auton(void) {
 void autonomous(void) {
   Indexer.set(false);
   Expander.set(false);
-  IntakeHigher.setStopping(coast);
-  IntakeLower.setStopping(coast);
+  Intake.setStopping(coast);
+  //IntakeLower.setStopping(coast);
   setDriveStopping(hold);
   calibrate();
   test();
@@ -414,10 +453,10 @@ void autonomous(void) {
 
 void usercontrol(void) {
   Controller1.Screen.clearScreen();
-  FlywheelHigher.setStopping(coast);
-  FlywheelLower.setStopping(coast);
-  IntakeHigher.setStopping(coast);
-  IntakeLower.setStopping(coast);
+  Flywheel.setStopping(coast);
+  //FlywheelLower.setStopping(coast);
+  Intake.setStopping(coast);
+  //IntakeLower.setStopping(coast);
   Indexer.set(false);
   Expander.set(false);
   Controller1.ButtonR1.pressed(incrementFlywheelSpeed);

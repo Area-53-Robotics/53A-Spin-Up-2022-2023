@@ -3,17 +3,17 @@ using namespace vex;
 extern brain Brain;
 
 // VEXcode devices
-extern motor FlywheelHigher;
+extern motor Flywheel;
 extern controller Controller1;
 extern motor LeftFront;
 extern motor LeftBack;
 extern motor RightBack;
 extern motor RightFront;
-extern motor IntakeHigher;
-extern motor FlywheelLower;
+extern motor Intake;
+extern motor RightTop;
 extern digital_out Indexer;
 extern digital_out Expander;
-extern motor IntakeLower;
+extern motor LeftTop;
 extern rotation FlywheelSensor;
 extern inertial InertialSensor;
 
