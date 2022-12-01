@@ -190,7 +190,7 @@ void printAutonDescription() {
   }
   Brain.Screen.setCursor(12, 1);
   Brain.Screen.clearLine();
-  Brain.Screen.print("Auton: %s", autonDescription);
+  Brain.Screen.print("Auton: %s", autonDescription.c_str());
 }
 
 void changeAuton() { //Auton selector
