@@ -22,6 +22,7 @@ float J3;
 bool intakeMode = false;
 bool intakeDirection = true;
 bool brainInfo = false;
+bool calibrated = false;
 int selectedAuton = 0;
 const float wheelRadius = 3.25 / 2;
 const float driveWidth = 13;
@@ -117,12 +118,12 @@ void updateIntake() {
 }
 
 void rotateRoller(float angle) {
-  Intake.spinFor(forward, angle, degrees, 100, velocityUnits::pct, false);
+  Intake.spinFor(forward, angle * (35 / 3), degrees, 100, velocityUnits::pct, false);
   //IntakeLower.spinFor(forward, angle, degrees, 100, velocityUnits::pct, false);
 }
 
 void spinRoller() {
-  rotateRoller(360);
+  rotateRoller(-90);
 }
 
 //Info functions
@@ -140,21 +141,18 @@ void toggleBrainInfo() {
 
 void printMotorTemperature() {
   Brain.Screen.clearScreen();
-  while (!Brain.Screen.pressing()) {
-    Brain.Screen.setCursor(1, 1);
-    Brain.Screen.print("Left front: %f", LeftFront.temperature());
-    Brain.Screen.setCursor(2, 1);
-    Brain.Screen.print("Left top: %f", LeftTop.temperature());
-    Brain.Screen.setCursor(2, 1);
-    Brain.Screen.print("Left back: %f", LeftBack.temperature());
-    Brain.Screen.setCursor(3, 1);
-    Brain.Screen.print("Right front: %f", RightFront.temperature());
-    Brain.Screen.setCursor(4, 1);
-    Brain.Screen.print("Right top: %f", RightTop.temperature());
-    Brain.Screen.setCursor(4, 1);
-    Brain.Screen.print("Right back: %f", RightBack.temperature());
-  }
-  Brain.Screen.clearScreen();
+  Brain.Screen.setCursor(1, 1);
+  Brain.Screen.print("Left front: %.f", LeftFront.temperature());
+  Brain.Screen.setCursor(2, 1);
+  Brain.Screen.print("Left top: %.f", LeftTop.temperature());
+  Brain.Screen.setCursor(3, 1);
+  Brain.Screen.print("Left back: %.f", LeftBack.temperature());
+  Brain.Screen.setCursor(4, 1);
+  Brain.Screen.print("Right front: %.f", RightFront.temperature());
+  Brain.Screen.setCursor(5, 1);
+  Brain.Screen.print("Right top: %.f", RightTop.temperature());
+  Brain.Screen.setCursor(6, 1);
+  Brain.Screen.print("Right back: %.f", RightBack.temperature());
 }
 
 void printAutonDescription() {
@@ -209,44 +207,56 @@ void shoot() {
   Indexer.set(false);
 }
 
-void expand() {
-  Expander.set(true);
+void toggleExpander() {
+  Expander.set(!Expander.value());
 }
 
 void calibrate() {
   InertialSensor.startCalibration();
-  Brain.Screen.clearScreen();
-  Brain.Screen.printAt(0, 0, "Inertial sensor calibrating...");
+  Brain.Screen.setCursor(12, 1);
+  Brain.Screen.clearLine();
+  Brain.Screen.print("Inertial sensor calibrating...");
   while (InertialSensor.isCalibrating()) {
     wait(10, msec);
   }
-  Brain.Screen.clearScreen();
-  Brain.Screen.printAt(0, 0, "Calibration complete!");
+  Brain.Screen.clearLine();
+  Brain.Screen.print("Calibration complete!");
+  calibrated = true;
 }
 
 void drawPreautonMenu() {
-  Brain.Screen.clearScreen("000040");
+  Brain.Screen.clearScreen("000050");
   Brain.Screen.setPenColor(white);
-  Brain.Screen.drawLine(50, 0, 52, 218);
-  Brain.Screen.drawLine(0, 119, 50, 121);
-  Brain.Screen.drawLine(0, 216, 50, 218);
+  Brain.Screen.drawLine(240, 0, 240, 216);
+  Brain.Screen.drawLine(0, 120, 480, 120);
+  Brain.Screen.drawLine(0, 216, 480, 216);
+  Brain.Screen.setCursor(3, 2);
+  Brain.Screen.print("Calibrate inertial");
   Brain.Screen.setCursor(4, 2);
-  Brain.Screen.print("Calibrate inertial sensor");
+  Brain.Screen.print("sensor");
+  Brain.Screen.setCursor(8, 2);
+  Brain.Screen.print("Print drive");
   Brain.Screen.setCursor(9, 2);
-  Brain.Screen.print("Print drive motor temperatures");
-  Brain.Screen.setCursor(5, 25);
+  Brain.Screen.print("motor temperatures");
+  Brain.Screen.setCursor(3, 30);
   Brain.Screen.print("Switch auton");
+  Brain.Screen.setCursor(9, 30);
+  Brain.Screen.print("Redraw menu");
 }
 
 void brainPressEvent() {
-  if (Brain.Screen.xPosition() <= 51) {
+  if (Brain.Screen.xPosition() <= 240) {
     if (Brain.Screen.yPosition() <= 120) {
       calibrate();
     } else {
     printMotorTemperature();
     }
   } else {
-    changeAuton();
+    if (Brain.Screen.yPosition() <= 120) {
+      changeAuton();
+    } else {
+    drawPreautonMenu();
+    }
   }
 }
 
@@ -263,8 +273,8 @@ void updateDriveSpeed() {
   J3 = Controller1.Axis3.position(percent);
   float leftSpeed = driveCurve(J3);
   float rightSpeed = driveCurve(J2);
-  //Controller1.Screen.setCursor(1, 0);
-  //Controller1.Screen.print("%f, %f", leftSpeed, rightSpeed);
+  /* Controller1.Screen.setCursor(1, 0);
+  Controller1.Screen.print("%4.f, %4.f", leftSpeed, rightSpeed); */
   LeftFront.spin(forward, leftSpeed, pct);
   LeftTop.spin(forward, leftSpeed, pct);
   LeftBack.spin(forward, leftSpeed, pct);
@@ -482,7 +492,7 @@ void lowGoal() { //4
 void roller() { //5
   setDriveTimeout(5);
   move(1.5, 20);
-  rotateRoller(360);
+  rotateRoller(-90);
 }
 
 void pre_auton(void) {
@@ -490,6 +500,7 @@ void pre_auton(void) {
   vexcodeInit();
   Indexer.set(false);
   Expander.set(false);
+  drawPreautonMenu();
   Brain.Screen.pressed(brainPressEvent);
 }
 
@@ -499,7 +510,9 @@ void autonomous(void) {
   Intake.setStopping(coast);
   //IntakeLower.setStopping(coast);
   setDriveStopping(hold);
-  calibrate();
+  if (!calibrated) {
+    calibrate();
+  }
   switch (selectedAuton) {
     case 1:
     test();
@@ -538,7 +551,7 @@ void usercontrol(void) {
   Controller1.ButtonB.pressed(shoot);
   Controller1.ButtonX.pressed(stopFlywheel);
   Controller1.ButtonA.pressed(startFlywheel);
-  Controller1.ButtonY.pressed(spinRoller);
+  Controller1.ButtonY.pressed(toggleExpander);
   Controller1.ButtonRight.pressed(closestFlywheel);
   Controller1.ButtonUp.pressed(slightlyIncrementFlywheelSpeed);
   Controller1.ButtonDown.pressed(slightlyDecrementFlywheelSpeed);
