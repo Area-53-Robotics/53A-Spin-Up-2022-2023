@@ -108,17 +108,11 @@ void changeIntakeDirection() {
 }
 
 void updateIntake() {
-  if (Controller1.ButtonLeft.pressing()) {
-    Intake.spin(intakeDirection ? forward : reverse, 5, pct);
-    //IntakeLower.spin(intakeDirection ? forward : reverse, 5, pct);
-  } else {
-    Intake.spin(intakeDirection ? forward : reverse, intakeMode ? 100 : 0, pct);
-    //IntakeLower.spin(intakeDirection ? forward : reverse, intakeMode ? 100 : 0, pct);
-  }
+  Intake.spin(intakeDirection ? forward : reverse, intakeMode ? 100 : 0, pct);
 }
 
-void rotateRoller(float angle) {
-  Intake.spinFor(forward, angle * (35 / 3), degrees, 100, velocityUnits::pct, false);
+void rotateRoller(float angle, bool blocking = false) {
+  Intake.spinFor(forward, angle * (35 / 3), degrees, 100, velocityUnits::pct, blocking);
   //IntakeLower.spinFor(forward, angle, degrees, 100, velocityUnits::pct, false);
 }
 
@@ -182,6 +176,14 @@ void printAutonDescription() {
     autonDescription = "Spin roller";
     break;
 
+    case 6:
+    autonDescription = "Spin roller and preloads to low goal";
+    break;
+
+    case 7:
+    autonDescription = "Skills with 2 rollers";
+    break;
+
     default:
     autonDescription = "Index out of bounds";
     break;
@@ -192,7 +194,7 @@ void printAutonDescription() {
 }
 
 void changeAuton() { //Auton selector
-  if (selectedAuton >= 5) {
+  if (selectedAuton >= 7) {
     selectedAuton = 0;
   } else {
     selectedAuton++;
@@ -214,10 +216,15 @@ void toggleExpander() {
 void calibrate() {
   InertialSensor.startCalibration();
   Brain.Screen.setCursor(12, 1);
-  Brain.Screen.clearLine();
-  Brain.Screen.print("Inertial sensor calibrating...");
+  int dots = 0;
   while (InertialSensor.isCalibrating()) {
-    wait(10, msec);
+    Brain.Screen.clearLine();
+    Brain.Screen.print("Inertial sensor calibrating");
+    for (int dot = 0; dot <= dots - 1; dot++) {
+      Brain.Screen.print(".");
+    }
+    dots = dots >= 3 ? 0 : dots + 1;
+    wait(200, msec);
   }
   Brain.Screen.clearLine();
   Brain.Screen.print("Calibration complete!");
@@ -225,8 +232,10 @@ void calibrate() {
 }
 
 void drawPreautonMenu() {
-  Brain.Screen.clearScreen("000050");
+  color background = color(0, 50, 0);
+  Brain.Screen.clearScreen(background);
   Brain.Screen.setPenColor(white);
+  Brain.Screen.setFillColor(background);
   Brain.Screen.drawLine(240, 0, 240, 216);
   Brain.Screen.drawLine(0, 120, 480, 120);
   Brain.Screen.drawLine(0, 216, 480, 216);
@@ -426,7 +435,7 @@ void rotateBothSidesInertial(float angle, turnType direction, float initialSpeed
   stopDrive();
 }
 
-void rotateOneSide(float angle, turnType direction, float initialSpeed = 100, float inertial = true) {
+void rotateOneSide(float angle, turnType direction, float initialSpeed = 100, float inertial = false) {
   if (inertial) {
     rotateOneSideInertial(angle, direction, initialSpeed);
   } else {
@@ -434,7 +443,7 @@ void rotateOneSide(float angle, turnType direction, float initialSpeed = 100, fl
   }
 }
 
-void rotateBothSides(float angle, turnType direction, float initialSpeed = 100, float inertial = true) {
+void rotateBothSides(float angle, turnType direction, float initialSpeed = 100, float inertial = false) {
   if (inertial) {
     rotateBothSidesInertial(angle, direction, initialSpeed);
   } else {
@@ -465,24 +474,21 @@ void rightSimple() { //2
 }
 
 void skills() { //3
-  startFlywheel();
+  closestFlywheel();
   setDriveTimeout(5);
-  move(3, 20);
-  rotateRoller(150);
-  wait(3, seconds);
+  move(1.5, 20);
+  rotateRoller(-180);
+  move(-72, 100);
+  rotateBothSides(25, left);
   shoot();
-  wait(1, seconds);
+  wait(2, seconds);
   shoot();
-  wait(0.5, seconds);
-  move(-20, 100);
-  wait(0.5, seconds);
-  rotateBothSides(90, left);
-  wait(0.5, seconds);
-  move(10, 100);
+  toggleExpander();
+  move(100, 30);
 }
 
 void lowGoal() { //4
-  startFlywheel();
+  closestFlywheel();
   wait(5, seconds);
   shoot();
   wait(3, seconds);
@@ -493,6 +499,32 @@ void roller() { //5
   setDriveTimeout(5);
   move(1.5, 20);
   rotateRoller(-90);
+}
+
+void rollerLowGoal() { //6
+  startFlywheel();
+  roller();
+  move(-2, 50);
+  wait(200, msec);
+  rotateBothSides(90, left);
+  wait(2, seconds);
+  shoot();
+  wait(2, seconds);
+  shoot();
+}
+
+void skillsRoller() { //7
+  setDriveTimeout(8);
+  move(1.5, 20);
+  rotateRoller(-180, true);
+  move(-24, 50);
+  rotateBothSides(90, right);
+  move(36, 30);
+  rotateRoller(-180, true);
+  move(-12, 50);
+  rotateBothSides(135, right);
+  toggleExpander();
+  move(150, 30);
 }
 
 void pre_auton(void) {
@@ -532,6 +564,14 @@ void autonomous(void) {
 
     case 5:
     roller();
+    break;
+
+    case 6:
+    rollerLowGoal();
+    break;
+
+    case 7:
+    skillsRoller();
     break;
   }
 }
