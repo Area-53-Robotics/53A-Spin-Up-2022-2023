@@ -23,7 +23,7 @@ bool intakeMode = false;
 bool intakeDirection = true;
 bool brainInfo = false;
 bool calibrated = false;
-int selectedAuton = 0;
+int selectedAuton = 1;
 const float wheelRadius = 3.25 / 2;
 const float driveWidth = 13;
 const float driveLength = 12;
@@ -52,7 +52,7 @@ int printFlywheelSpeed() {
   while (1) {
     Controller1.Screen.setCursor(2, 0);
     Controller1.Screen.print("Motor speed: %.2f", Flywheel.velocity(rpm));
-    Controller1.Screen.setCursor(3, 0);
+    Controller1.Screen.setCursor(3, 1);
     Controller1.Screen.print("Sensor speed: %.2f", FlywheelSensor.velocity(rpm));
     task::sleep(100);
   }
@@ -320,9 +320,16 @@ void  setDriveTimeout(float time) {
 }
 
 //Auton support functions
+float getAdjustedError(float proportionalError) {
+  float a = 0.00032217;
+  float b = 3104.95;
+  float c = -0.00032217;
+  return (fabs(proportionalError) / proportionalError) * (a * pow(b, fabs(proportionalError))) + c;
+}
+
 void move(float length, float speed, bool blocking = true) {
   float spinDistance = arcMeasure(length, wheelRadius) * (3.0 / 5);
-  Controller1.Screen.setCursor(3, 0);
+  Controller1.Screen.setCursor(3, 1);
   Controller1.Screen.print(spinDistance);
   LeftFront.spinFor(spinDistance, degrees, speed, velocityUnits::pct, false);
   LeftTop.spinFor(spinDistance, degrees, speed, velocityUnits::pct, false);
@@ -381,7 +388,7 @@ void rotateBothSidesEncoder(float angle, turnType direction, float initialSpeed)
   while (!RightBack.isDone()) {
     distanceSpun = fabs(initialPosition - RightBack.position(degrees));
     speed = initialSpeed * ((spinDistance - distanceSpun) / spinDistance);
-    Controller1.Screen.setCursor(3, 0);
+    Controller1.Screen.setCursor(3, 1);
     Controller1.Screen.print(speed);
     LeftFront.setVelocity(speed, pct);
     LeftTop.setVelocity(speed, pct);
@@ -397,10 +404,13 @@ void rotateOneSideInertial(float angle, turnType direction, float initialSpeed) 
   float speed = initialSpeed;
   float currentAngle = 0;
   InertialSensor.resetRotation();
-  while (fabs(angle - currentAngle) < 1) {
+  Controller1.Screen.setCursor(3, 1);
+  Controller1.Screen.clearLine(3);
+  Controller1.Screen.print(fabs(angle - currentAngle));
+  while (fabs(angle - currentAngle) > 1) {
     currentAngle = InertialSensor.angle();
     speed = initialSpeed * ((angle - currentAngle) / angle);
-    Controller1.Screen.setCursor(3, 0);
+    Controller1.Screen.setCursor(3, 1);
     Controller1.Screen.print(speed);
     if (direction == right) {
       LeftFront.spin(forward, speed, pct);
@@ -419,11 +429,18 @@ void rotateOneSideInertial(float angle, turnType direction, float initialSpeed) 
 void rotateBothSidesInertial(float angle, turnType direction, float initialSpeed) {
   float speed = initialSpeed;
   float currentAngle = 0;
+  float proportionalError;
   InertialSensor.resetRotation();
-  while (fabs(angle - currentAngle) < 1) {
-    currentAngle = InertialSensor.angle();
-    speed = initialSpeed * ((angle - currentAngle) / angle);
-    Controller1.Screen.setCursor(3, 0);
+  Controller1.Screen.clearLine(3);
+  while (fabs(angle - currentAngle) > 1) {
+    currentAngle = fabs(InertialSensor.rotation());
+    proportionalError = (angle - currentAngle) / angle;
+    speed = initialSpeed * getAdjustedError(proportionalError);
+    Controller1.Screen.setCursor(1, 1);
+    Controller1.Screen.print(currentAngle);
+    Controller1.Screen.setCursor(2, 1);
+    Controller1.Screen.print(angle - currentAngle);
+    Controller1.Screen.setCursor(3, 1);
     Controller1.Screen.print(speed);
     LeftFront.spin(direction == right ? forward : reverse, speed, pct);
     LeftTop.spin(direction == right ? forward : reverse, speed, pct);
@@ -435,16 +452,16 @@ void rotateBothSidesInertial(float angle, turnType direction, float initialSpeed
   stopDrive();
 }
 
-void rotateOneSide(float angle, turnType direction, float initialSpeed = 100, float inertial = false) {
-  if (inertial) {
+void rotateOneSide(float angle, turnType direction, float initialSpeed = 100, float sensor = true) {
+  if (sensor) {
     rotateOneSideInertial(angle, direction, initialSpeed);
   } else {
     rotateOneSideEncoder(angle, direction, initialSpeed);
   }
 }
 
-void rotateBothSides(float angle, turnType direction, float initialSpeed = 100, float inertial = false) {
-  if (inertial) {
+void rotateBothSides(float angle, turnType direction, float initialSpeed = 100, float sensor = true) {
+  if (sensor) {
     rotateBothSidesInertial(angle, direction, initialSpeed);
   } else {
     rotateBothSidesEncoder(angle, direction, initialSpeed);
@@ -454,13 +471,13 @@ void rotateBothSides(float angle, turnType direction, float initialSpeed = 100, 
 //Auton functions
 void test() { //1
   rotateBothSides(90, left, 50);
+  /* wait(1, seconds);
+  rotateBothSides(90, right, 20);
   wait(1, seconds);
-  rotateBothSides(90, right, 50);
+  rotateOneSide(90, left, 20);
   wait(1, seconds);
-  rotateOneSide(90, left, 50);
-  wait(1, seconds);
-  rotateOneSide(90, right, 50);
-  wait(1, seconds);
+  rotateOneSide(90, right, 20);
+  wait(1, seconds); */
 }
 void rightSimple() { //2
   setFlywheelSpeed(73);
@@ -537,6 +554,7 @@ void pre_auton(void) {
 }
 
 void autonomous(void) {
+  Controller1.Screen.clearScreen();
   Indexer.set(false);
   Expander.set(false);
   Intake.setStopping(coast);
