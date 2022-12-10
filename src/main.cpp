@@ -23,7 +23,7 @@ bool intakeMode = false;
 bool intakeDirection = true;
 bool brainInfo = false;
 bool calibrated = false;
-int selectedAuton = 1;
+int selectedAuton = 0;
 const float wheelRadius = 3.25 / 2;
 const float driveWidth = 13;
 const float driveLength = 12;
@@ -111,13 +111,13 @@ void updateIntake() {
   Intake.spin(intakeDirection ? forward : reverse, intakeMode ? 100 : 0, pct);
 }
 
-void rotateRoller(float angle, bool blocking = false) {
+void rotateRoller(float angle, bool blocking = true) {
   Intake.spinFor(forward, angle * (35 / 3), degrees, 100, velocityUnits::pct, blocking);
   //IntakeLower.spinFor(forward, angle, degrees, 100, velocityUnits::pct, false);
 }
 
 void spinRoller() {
-  rotateRoller(-90);
+  rotateRoller(-90, false);
 }
 
 //Info functions
@@ -161,7 +161,7 @@ void printAutonDescription() {
     break;
 
     case 2:
-    autonDescription = "Right side, preloads to high goal";
+    autonDescription = "Right side roller, preloads to high goal";
     break;
 
     case 3:
@@ -435,7 +435,7 @@ void rotateBothSidesInertial(float angle, turnType direction, float initialSpeed
   while (fabs(angle - currentAngle) > 1) {
     currentAngle = fabs(InertialSensor.rotation());
     proportionalError = (angle - currentAngle) / angle;
-    speed = initialSpeed * getAdjustedError(proportionalError);
+    speed = initialSpeed * proportionalError;
     Controller1.Screen.setCursor(1, 1);
     Controller1.Screen.print(currentAngle);
     Controller1.Screen.setCursor(2, 1);
@@ -452,7 +452,7 @@ void rotateBothSidesInertial(float angle, turnType direction, float initialSpeed
   stopDrive();
 }
 
-void rotateOneSide(float angle, turnType direction, float initialSpeed = 100, float sensor = true) {
+void rotateOneSide(float angle, turnType direction, float initialSpeed = 20, float sensor = true) {
   if (sensor) {
     rotateOneSideInertial(angle, direction, initialSpeed);
   } else {
@@ -460,7 +460,7 @@ void rotateOneSide(float angle, turnType direction, float initialSpeed = 100, fl
   }
 }
 
-void rotateBothSides(float angle, turnType direction, float initialSpeed = 100, float sensor = true) {
+void rotateBothSides(float angle, turnType direction, float initialSpeed = 20, float sensor = true) {
   if (sensor) {
     rotateBothSidesInertial(angle, direction, initialSpeed);
   } else {
@@ -470,7 +470,8 @@ void rotateBothSides(float angle, turnType direction, float initialSpeed = 100, 
 
 //Auton functions
 void test() { //1
-  rotateBothSides(90, left, 50);
+  move(24, 50);
+  //rotateBothSides(45, right, 13);
   /* wait(1, seconds);
   rotateBothSides(90, right, 20);
   wait(1, seconds);
@@ -479,13 +480,22 @@ void test() { //1
   rotateOneSide(90, right, 20);
   wait(1, seconds); */
 }
-void rightSimple() { //2
-  setFlywheelSpeed(73);
-  wait(0.5, seconds);
-  rotateOneSide(-22, left, 30);
-  wait(5, seconds);
+void rightHalfWP() { //2
+  setFlywheelSpeed(475);
+  move(24, 50);
+  wait(100, msec);
+  rotateBothSides(45, right, 13);
+  move(18, 50);
+  wait(100, msec);
+  rotateBothSides(45, right, 13);
+  setDriveTimeout(3);
+  move(12, 20);
+  rotateRoller(-90);
+  move(-12, 50);
+  wait(100, msec);
+  rotateBothSides(10, right, 5);
   shoot();
-  setFlywheelSpeed(70);
+  setFlywheelSpeed(480);
   wait(2, seconds);
   shoot();
 }
@@ -569,7 +579,7 @@ void autonomous(void) {
     break;
 
     case 2:
-    rightSimple();
+    rightHalfWP();
     break;
 
     case 3:
