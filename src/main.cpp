@@ -29,23 +29,6 @@ const float driveWidth = 13;
 const float driveLength = 12;
 const float turnRadius = hypotf(driveWidth, driveLength) / 2;
 
-//Math functions
-float toDegrees(float radians) {
-  return (radians * 180) / M_PI;
-}
-
-float toRadians(float degrees) {
-  return (degrees * M_PI) / 180;
-}
-
-float arcLength(float arcMeasure, float radius) {
-  return toRadians(arcMeasure) * radius;
-}
-
-float arcMeasure(float arcLength, float radius) {
-  return toDegrees(arcLength / radius);
-}
-
 //Flywheel functions
 int printFlywheelSpeed() {
   //Make sure line 3 is clear before using
