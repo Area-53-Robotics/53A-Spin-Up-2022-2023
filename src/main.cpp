@@ -8,8 +8,6 @@
 /*----------------------------------------------------------------------------*/
 
 #include "vex.h"
-#include "subsystems\flywheel.h"
-#include "subsystems\intake.h"
 #include <cmath>
 #include <string>
 
@@ -30,18 +28,6 @@ const float driveLength = 12;
 const float turnRadius = hypotf(driveWidth, driveLength) / 2;
 
 //Info functions
-void printFlywheelTemperature() {
-  Brain.Screen.setCursor(1,1);
-  Brain.Screen.print("Flywheel Temperature: %d", (int) Flywheel.temperature(fahrenheit));
-  /* Brain.Screen.setCursor(2,1);
-  Brain.Screen.print("Back Flywheel Temperature: %d", (int) FlywheelLower.temperature(fahrenheit)); */
-}
-
-void toggleBrainInfo() {
-  Brain.Screen.clearScreen();
-  brainInfo = !brainInfo;
-}
-
 void printMotorTemperature() {
   Brain.Screen.clearScreen();
   Brain.Screen.setCursor(1, 1);
@@ -112,22 +98,6 @@ void changeAuton() { //Auton selector
 }
 
 //Miscellaneous functions
-void shoot() {
-  Indexer.set(true);
-  wait(0.2,sec);
-  Indexer.set(false);
-}
-
-void expand() {
-  Expander.set(true);
-}
-
-void checkExpansion() {
-  if (Controller1.ButtonA.pressing() && Controller1.ButtonLeft.pressing()) {
-    expand();
-  }
-}
-
 void calibrate() {
   InertialSensor.startCalibration();
   Brain.Screen.setCursor(12, 1);

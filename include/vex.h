@@ -19,6 +19,9 @@
 
 #include "robot-config.h"
 #include "trig.h"
+#include "subsystems\flywheel.h"
+#include "subsystems\intake.h"
+#include "subsystems\pistons.h"
 
 #define waitUntil(condition)                                                   \
   do {                                                                         \
