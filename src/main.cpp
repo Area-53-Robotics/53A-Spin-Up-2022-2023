@@ -8,6 +8,7 @@
 /*----------------------------------------------------------------------------*/
 
 #include "vex.h"
+#include "flywheel.h"
 #include <cmath>
 #include <string>
 
@@ -28,62 +29,6 @@ const float wheelRadius = 3.25 / 2;
 const float driveWidth = 13;
 const float driveLength = 12;
 const float turnRadius = hypotf(driveWidth, driveLength) / 2;
-
-//Flywheel functions
-int printFlywheelSpeed() {
-  //Make sure line 3 is clear before using
-  while (1) {
-    Controller1.Screen.setCursor(2, 0);
-    Controller1.Screen.print("Motor speed: %.2f", Flywheel.velocity(rpm));
-    Controller1.Screen.setCursor(3, 1);
-    Controller1.Screen.print("Sensor speed: %.2f", FlywheelSensor.velocity(rpm));
-    task::sleep(100);
-  }
-  return 0;
-}
-
-void setFlywheelSpeed(float speed, velocityUnits units = velocityUnits::pct) {
-  Flywheel.spin(forward, speed, units);
-  //FlywheelLower.spin(forward, speed, units);
-}
-
-void maxFlywheel() {
-  setFlywheelSpeed(100);
-}
-
-void stopFlywheel() {
-  Flywheel.stop(coast);
-  //FlywheelLower.stop(coast);
-}
-
-void changeFlywheelSpeed(float speedDifference) {
-  float speed = Flywheel.velocity(percent);
-  setFlywheelSpeed(speed + speedDifference);
-}
-
-void incrementFlywheelSpeed() {
-  changeFlywheelSpeed(5);
-}
-
-void decrementFlywheelSpeed() {
-  changeFlywheelSpeed(-5);
-}
-
-void slightlyIncrementFlywheelSpeed() {
-  changeFlywheelSpeed(2);
-}
-
-void slightlyDecrementFlywheelSpeed() {
-  changeFlywheelSpeed(-2);
-}
-
-void closestFlywheel() {
-  setFlywheelSpeed(350, rpm);
-}
-
-void rollerFlywheel() {
-  setFlywheelSpeed(425, rpm);
-}
 
 //Intake functions
 void toggleIntake() {
