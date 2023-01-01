@@ -1,6 +1,6 @@
 //Flywheel control functions
 
-#include "flywheel.h"
+#include "subsystems\flywheel.h"
 
 int printFlywheelSpeed() { //int because required for task
   //Make sure line 3 is clear before using

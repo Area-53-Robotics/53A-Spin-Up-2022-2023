@@ -8,7 +8,8 @@
 /*----------------------------------------------------------------------------*/
 
 #include "vex.h"
-#include "flywheel.h"
+#include "subsystems\flywheel.h"
+#include "subsystems\intake.h"
 #include <cmath>
 #include <string>
 
@@ -20,8 +21,6 @@ competition Competition;
 //Global variables
 float J2;
 float J3;
-bool intakeMode = false;
-bool intakeDirection = true;
 bool brainInfo = false;
 bool calibrated = false;
 int selectedAuton = 0;
@@ -29,28 +28,6 @@ const float wheelRadius = 3.25 / 2;
 const float driveWidth = 13;
 const float driveLength = 12;
 const float turnRadius = hypotf(driveWidth, driveLength) / 2;
-
-//Intake functions
-void toggleIntake() {
-  intakeMode = !intakeMode;
-}
-
-void changeIntakeDirection() {
-  intakeDirection = !intakeDirection;
-}
-
-void updateIntake() {
-  Intake.spin(intakeDirection ? forward : reverse, intakeMode ? 100 : 0, pct);
-}
-
-void rotateRoller(float angle, bool blocking = true) {
-  Intake.spinFor(forward, angle * (35 / 3), degrees, 100, velocityUnits::pct, blocking);
-  //IntakeLower.spinFor(forward, angle, degrees, 100, velocityUnits::pct, false);
-}
-
-void spinRoller() {
-  rotateRoller(-90, false);
-}
 
 //Info functions
 void printFlywheelTemperature() {
