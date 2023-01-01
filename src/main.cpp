@@ -64,7 +64,7 @@ void setFlywheelSpeed(float speed, velocityUnits units = velocityUnits::pct) {
   //FlywheelLower.spin(forward, speed, units);
 }
 
-void startFlywheel() {
+void maxFlywheel() {
   setFlywheelSpeed(100);
 }
 
@@ -96,6 +96,10 @@ void slightlyDecrementFlywheelSpeed() {
 
 void closestFlywheel() {
   setFlywheelSpeed(350, rpm);
+}
+
+void rollerFlywheel() {
+  setFlywheelSpeed(425, rpm);
 }
 
 //Intake functions
@@ -209,8 +213,14 @@ void shoot() {
   Indexer.set(false);
 }
 
-void toggleExpander() {
-  Expander.set(!Expander.value());
+void expand() {
+  Expander.set(true);
+}
+
+void checkExpansion() {
+  if (Controller1.ButtonA.pressing() && Controller1.ButtonLeft.pressing()) {
+    expand();
+  }
 }
 
 void calibrate() {
@@ -510,7 +520,7 @@ void skills() { //3
   shoot();
   wait(2, seconds);
   shoot();
-  toggleExpander();
+  expand();
   move(100, 30);
 }
 
@@ -529,7 +539,7 @@ void roller() { //5
 }
 
 void rollerLowGoal() { //6
-  startFlywheel();
+  setFlywheelSpeed(200);
   roller();
   move(-2, 50);
   wait(200, msec);
@@ -550,7 +560,7 @@ void skillsRoller() { //7
   rotateRoller(-180, true);
   move(-12, 50);
   rotateBothSides(135, right);
-  toggleExpander();
+  expand();
   move(150, 30);
 }
 
@@ -612,22 +622,22 @@ void usercontrol(void) {
   //IntakeLower.setStopping(coast);
   Indexer.set(false);
   Expander.set(false);
-  Controller1.ButtonR1.pressed(incrementFlywheelSpeed);
-  Controller1.ButtonR2.pressed(decrementFlywheelSpeed);
+
+  //Button callbacks
   Controller1.ButtonL1.pressed(toggleIntake);
-  Controller1.ButtonL2.pressed(changeIntakeDirection);
+  Controller1.ButtonR1.pressed(changeIntakeDirection);
+  Controller1.ButtonL2.pressed(closestFlywheel);
+  Controller1.ButtonR2.pressed(rollerFlywheel);
   Controller1.ButtonB.pressed(shoot);
   Controller1.ButtonX.pressed(stopFlywheel);
-  Controller1.ButtonA.pressed(startFlywheel);
-  Controller1.ButtonY.pressed(toggleExpander);
   Controller1.ButtonRight.pressed(closestFlywheel);
-  Controller1.ButtonUp.pressed(slightlyIncrementFlywheelSpeed);
-  Controller1.ButtonDown.pressed(slightlyDecrementFlywheelSpeed);
+  Controller1.ButtonUp.pressed(rollerFlywheel);
   task flyWheelSpeed(printFlywheelSpeed);
   setDriveStopping(brake);
   while (true) {
     updateDriveSpeed();
     updateIntake();
+    checkExpansion();
     
     wait(20, msec); // Sleep the task for a short amount of time to
                     // prevent wasted resources.
