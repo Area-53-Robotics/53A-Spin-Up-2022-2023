@@ -22,6 +22,7 @@
 #include "subsystems\flywheel.h"
 #include "subsystems\intake.h"
 #include "subsystems\pistons.h"
+#include "subsystems\drivetrain.h"
 #include "autonMovement.h"
 
 #define waitUntil(condition)                                                   \
