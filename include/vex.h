@@ -26,6 +26,7 @@
 #include "autonomous\autonMovement.h"
 #include "autonomous\autonSelector.h"
 #include "autonomous\autonPrograms.h"
+#include "brainScreen.h"
 
 #define waitUntil(condition)                                                   \
   do {                                                                         \
