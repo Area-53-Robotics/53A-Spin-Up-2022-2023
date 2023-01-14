@@ -7,6 +7,8 @@
 /*                                                                            */
 /*----------------------------------------------------------------------------*/
 //
+#pragma once
+
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -16,6 +18,15 @@
 #include "v5_vcs.h"
 
 #include "robot-config.h"
+#include "trig.h"
+#include "subsystems\flywheel.h"
+#include "subsystems\intake.h"
+#include "subsystems\pistons.h"
+#include "subsystems\drivetrain.h"
+#include "autonomous\autonMovement.h"
+#include "autonomous\autonSelector.h"
+#include "autonomous\autonPrograms.h"
+#include "brainScreen.h"
 
 #define waitUntil(condition)                                                   \
   do {                                                                         \
