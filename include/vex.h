@@ -23,7 +23,9 @@
 #include "subsystems\intake.h"
 #include "subsystems\pistons.h"
 #include "subsystems\drivetrain.h"
-#include "autonMovement.h"
+#include "autonomous\autonMovement.h"
+#include "autonomous\autonSelector.h"
+#include "autonomous\autonPrograms.h"
 
 #define waitUntil(condition)                                                   \
   do {                                                                         \

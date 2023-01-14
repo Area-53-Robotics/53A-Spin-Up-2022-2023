@@ -8,8 +8,6 @@
 /*----------------------------------------------------------------------------*/
 
 #include "vex.h"
-#include <cmath>
-#include <string>
 
 using namespace vex;
 
@@ -17,11 +15,8 @@ using namespace vex;
 competition Competition;
 
 //Global variables
-float J2;
-float J3;
 bool brainInfo = false;
 bool calibrated = false;
-int selectedAuton = 0;
 
 //Info functions
 void printMotorTemperature() {
@@ -38,59 +33,6 @@ void printMotorTemperature() {
   Brain.Screen.print("Right top: %.f", RightTop.temperature());
   Brain.Screen.setCursor(6, 1);
   Brain.Screen.print("Right back: %.f", RightBack.temperature());
-}
-
-void printAutonDescription() {
-  std::string autonDescription;
-  switch (selectedAuton) {
-    case 0:
-    autonDescription = "None";
-    break;
-
-    case 1:
-    autonDescription = "Testing";
-    break;
-
-    case 2:
-    autonDescription = "Right side roller, preloads to high goal";
-    break;
-
-    case 3:
-    autonDescription = "Skills";
-    break;
-
-    case 4:
-    autonDescription = "Preloads to low goal";
-    break;
-
-    case 5:
-    autonDescription = "Spin roller";
-    break;
-
-    case 6:
-    autonDescription = "Spin roller and preloads to low goal";
-    break;
-
-    case 7:
-    autonDescription = "Skills with 2 rollers";
-    break;
-
-    default:
-    autonDescription = "Index out of bounds";
-    break;
-  }
-  Brain.Screen.setCursor(12, 1);
-  Brain.Screen.clearLine();
-  Brain.Screen.print("Auton: %s", autonDescription.c_str());
-}
-
-void changeAuton() { //Auton selector
-  if (selectedAuton >= 7) {
-    selectedAuton = 0;
-  } else {
-    selectedAuton++;
-  }
-  printAutonDescription();
 }
 
 //Miscellaneous functions
@@ -150,92 +92,6 @@ void brainPressEvent() {
   }
 }
 
-//Auton functions
-void test() { //1
-  move(24, 50);
-  //rotateBothSides(45, right, 13);
-  /* wait(1, seconds);
-  rotateBothSides(90, right, 20);
-  wait(1, seconds);
-  rotateOneSide(90, left, 20);
-  wait(1, seconds);
-  rotateOneSide(90, right, 20);
-  wait(1, seconds); */
-}
-void rightHalfWP() { //2
-  setFlywheelSpeed(475);
-  move(24, 50);
-  wait(100, msec);
-  rotateBothSides(45, right, 13);
-  move(18, 50);
-  wait(100, msec);
-  rotateBothSides(45, right, 13);
-  setDriveTimeout(3);
-  move(12, 20);
-  rotateRoller(-90);
-  move(-12, 50);
-  wait(100, msec);
-  rotateBothSides(10, right, 5);
-  shoot();
-  setFlywheelSpeed(480);
-  wait(2, seconds);
-  shoot();
-}
-
-void skills() { //3
-  closestFlywheel();
-  setDriveTimeout(5);
-  move(1.5, 20);
-  rotateRoller(-180);
-  move(-72, 100);
-  rotateBothSides(25, left);
-  shoot();
-  wait(2, seconds);
-  shoot();
-  expand();
-  move(100, 30);
-}
-
-void lowGoal() { //4
-  closestFlywheel();
-  wait(5, seconds);
-  shoot();
-  wait(3, seconds);
-  shoot();
-}
-
-void roller() { //5
-  setDriveTimeout(5);
-  move(1.5, 20);
-  rotateRoller(-90);
-}
-
-void rollerLowGoal() { //6
-  setFlywheelSpeed(200);
-  roller();
-  move(-2, 50);
-  wait(200, msec);
-  rotateBothSides(90, left);
-  wait(2, seconds);
-  shoot();
-  wait(2, seconds);
-  shoot();
-}
-
-void skillsRoller() { //7
-  setDriveTimeout(8);
-  move(1.5, 20);
-  rotateRoller(-180, true);
-  move(-24, 50);
-  rotateBothSides(90, right);
-  move(36, 30);
-  rotateRoller(-180, true);
-  move(-12, 50);
-  rotateBothSides(135, right);
-  expand();
-  move(150, 30);
-}
-
 void pre_auton(void) {
   // Initializing Robot Configuration. DO NOT REMOVE!
   vexcodeInit();
@@ -254,35 +110,6 @@ void autonomous(void) {
   setDriveStopping(hold);
   if (!calibrated) {
     calibrate();
-  }
-  switch (selectedAuton) {
-    case 1:
-    test();
-    break;
-
-    case 2:
-    rightHalfWP();
-    break;
-
-    case 3:
-    skills();
-    break;
-
-    case 4:
-    lowGoal();
-    break;
-
-    case 5:
-    roller();
-    break;
-
-    case 6:
-    rollerLowGoal();
-    break;
-
-    case 7:
-    skillsRoller();
-    break;
   }
 }
 
