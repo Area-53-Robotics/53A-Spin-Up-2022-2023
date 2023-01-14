@@ -10,10 +10,9 @@ extern motor LeftBack;
 extern motor RightBack;
 extern motor RightFront;
 extern motor Intake;
-extern motor RightTop;
-extern digital_out Indexer;
+extern motor Roller;
 extern digital_out Expander;
-extern motor LeftTop;
+extern motor Indexer;
 extern rotation FlywheelSensor;
 extern inertial InertialSensor;
 

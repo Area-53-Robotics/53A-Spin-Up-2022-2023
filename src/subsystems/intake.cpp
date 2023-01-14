@@ -16,10 +16,11 @@ void changeIntakeDirection() {
 
 void updateIntake() {
   Intake.spin(intakeDirection ? forward : reverse, intakePower ? 100 : 0, pct);
+  Roller.spin(intakeDirection ? forward : reverse, intakePower ? 100 : 0, pct);
 }
 
 //Roller
 void rotateRoller(float angle, bool blocking) {
   Intake.spinFor(forward, angle * (35 / 3), degrees, 100, velocityUnits::pct, blocking);
-  //IntakeLower.spinFor(forward, angle, degrees, 100, velocityUnits::pct, false);
+  Roller.spinFor(forward, angle, degrees, 100, velocityUnits::pct, false);
 }

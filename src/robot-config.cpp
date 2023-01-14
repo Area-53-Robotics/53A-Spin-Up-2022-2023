@@ -14,11 +14,10 @@ motor LeftFront = motor(PORT20, ratio18_1, true);
 motor LeftBack = motor(PORT18, ratio18_1, true);
 motor RightBack = motor(PORT15, ratio18_1, false);
 motor RightFront = motor(PORT17, ratio18_1, false);
-motor Intake = motor(PORT9, ratio6_1, true);
-motor RightTop = motor(PORT16, ratio6_1, false);
-digital_out Indexer = digital_out(Brain.ThreeWirePort.A);
+motor Intake = motor(PORT2, ratio18_1, true);
+motor Roller = motor(PORT3, ratio36_1, true);
 digital_out Expander = digital_out(Brain.ThreeWirePort.B);
-motor LeftTop = motor(PORT19, ratio6_1, true);
+motor Indexer = motor(PORT19, ratio18_1, true);
 rotation FlywheelSensor = rotation(PORT10, false);
 inertial InertialSensor = inertial(PORT11);
 

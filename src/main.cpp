@@ -17,7 +17,7 @@ competition Competition;
 void pre_auton(void) {
   // Initializing Robot Configuration. DO NOT REMOVE!
   vexcodeInit();
-  Indexer.set(false);
+  Indexer.setStopping(hold);
   Expander.set(false);
   drawPreautonMenu();
   Brain.Screen.pressed(brainPressEvent);
@@ -25,10 +25,10 @@ void pre_auton(void) {
 
 void autonomous(void) {
   Controller1.Screen.clearScreen();
-  Indexer.set(false);
+  //Indexer.set(false);
   Expander.set(false);
   Intake.setStopping(coast);
-  //IntakeLower.setStopping(coast);
+  Roller.setStopping(coast);
   setDriveStopping(hold);
   if (!isCalibrated()) {
     calibrate();
@@ -40,8 +40,8 @@ void usercontrol(void) {
   Flywheel.setStopping(coast);
   //FlywheelLower.setStopping(coast);
   Intake.setStopping(coast);
-  //IntakeLower.setStopping(coast);
-  Indexer.set(false);
+  Roller.setStopping(coast);
+  //Indexer.set(false);
   Expander.set(false);
 
   //Button callbacks
@@ -49,7 +49,7 @@ void usercontrol(void) {
   Controller1.ButtonR1.pressed(changeIntakeDirection);
   Controller1.ButtonL2.pressed(closestFlywheel);
   Controller1.ButtonR2.pressed(rollerFlywheel);
-  Controller1.ButtonB.pressed(shoot);
+  //Controller1.ButtonB.pressed(shoot);
   Controller1.ButtonX.pressed(stopFlywheel);
   Controller1.ButtonRight.pressed(closestFlywheel);
   Controller1.ButtonUp.pressed(rollerFlywheel);

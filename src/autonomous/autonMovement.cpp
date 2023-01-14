@@ -12,10 +12,10 @@ void move(float length, float speed, bool blocking) { //Drive in a straight line
   Controller1.Screen.setCursor(3, 1);
   Controller1.Screen.print(spinDistance);
   LeftFront.spinFor(spinDistance, degrees, speed, velocityUnits::pct, false);
-  LeftTop.spinFor(spinDistance, degrees, speed, velocityUnits::pct, false);
+  //LeftTop.spinFor(spinDistance, degrees, speed, velocityUnits::pct, false);
   LeftBack.spinFor(spinDistance, degrees, speed, velocityUnits::pct, false);
   RightFront.spinFor(spinDistance, degrees, speed, velocityUnits::pct, false);
-  RightTop.spinFor(spinDistance, degrees, speed, velocityUnits::pct, false);
+  //RightTop.spinFor(spinDistance, degrees, speed, velocityUnits::pct, false);
   RightBack.spinFor(spinDistance, degrees, speed, velocityUnits::pct, blocking);
 }
 
@@ -27,12 +27,12 @@ void rotateOneSideEncoder(float angle, turnType direction, float initialSpeed) {
   motor trackedMotor = direction == right ? LeftBack : RightBack; //Motor selection
   if (direction == right) {
     LeftFront.spinFor(spinDistance, degrees, speed, velocityUnits::pct, false);
-    LeftTop.spinFor(spinDistance, degrees, speed, velocityUnits::pct, false);
+    //LeftTop.spinFor(spinDistance, degrees, speed, velocityUnits::pct, false);
     LeftBack.spinFor(spinDistance, degrees, speed, velocityUnits::pct, false);
   } 
   if (direction == left) {
     RightFront.spinFor(spinDistance, degrees, speed, velocityUnits::pct, false);
-    RightTop.spinFor(spinDistance, degrees, speed, velocityUnits::pct, false);
+    //RightTop.spinFor(spinDistance, degrees, speed, velocityUnits::pct, false);
     RightBack.spinFor(spinDistance, degrees, speed, velocityUnits::pct, false);
   }
   float initialPosition = trackedMotor.position(degrees);
@@ -41,12 +41,12 @@ void rotateOneSideEncoder(float angle, turnType direction, float initialSpeed) {
     speed = initialSpeed * ((spinDistance - distanceSpun) / spinDistance);
     if (direction == right) {
       LeftFront.setVelocity(speed, pct);
-      LeftTop.setVelocity(speed, pct);
+      //LeftTop.setVelocity(speed, pct);
       LeftBack.setVelocity(speed, pct);
     }
     if (direction == left) {
       RightFront.setVelocity(speed, pct);
-      RightTop.setVelocity(speed, pct);
+      //RightTop.setVelocity(speed, pct);
       RightBack.setVelocity(speed, pct);
     }
   }
@@ -60,10 +60,10 @@ void rotateBothSidesEncoder(float angle, turnType direction, float initialSpeed)
   float initialPosition = RightBack.position(degrees);
   float distanceSpun;
   LeftFront.spinFor(direction == left ? reverse : forward, spinDistance, degrees, speed, velocityUnits::pct, false);
-  LeftTop.spinFor(direction == left ? reverse : forward, spinDistance, degrees, speed, velocityUnits::pct, false);
+  //LeftTop.spinFor(direction == left ? reverse : forward, spinDistance, degrees, speed, velocityUnits::pct, false);
   LeftBack.spinFor(direction == left ? reverse : forward, spinDistance, degrees, speed, velocityUnits::pct, false);
   RightFront.spinFor(direction == right ? reverse : forward, spinDistance, degrees, speed, velocityUnits::pct, false);
-  RightTop.spinFor(direction == right ? reverse : forward, spinDistance, degrees, speed, velocityUnits::pct, false);
+  //RightTop.spinFor(direction == right ? reverse : forward, spinDistance, degrees, speed, velocityUnits::pct, false);
   RightBack.spinFor(direction == right ? reverse : forward, spinDistance, degrees, speed, velocityUnits::pct, false);
   while (!RightBack.isDone()) {
     distanceSpun = fabs(initialPosition - RightBack.position(degrees));
@@ -71,10 +71,10 @@ void rotateBothSidesEncoder(float angle, turnType direction, float initialSpeed)
     Controller1.Screen.setCursor(3, 1);
     Controller1.Screen.print(speed);
     LeftFront.setVelocity(speed, pct);
-    LeftTop.setVelocity(speed, pct);
+    //LeftTop.setVelocity(speed, pct);
     LeftBack.setVelocity(speed, pct);
     RightFront.setVelocity(speed, pct);
-    RightTop.setVelocity(speed, pct);
+    //RightTop.setVelocity(speed, pct);
     RightBack.setVelocity(speed, pct);
   }
   stopDrive();
@@ -94,12 +94,12 @@ void rotateOneSideInertial(float angle, turnType direction, float initialSpeed) 
     Controller1.Screen.print(speed);
     if (direction == right) {
       LeftFront.spin(forward, speed, pct);
-      LeftTop.spin(forward, speed, pct);
+      //LeftTop.spin(forward, speed, pct);
       LeftBack.spin(forward, speed, pct);
     }
     if (direction == left) {
       RightFront.spin(forward, speed, pct);
-      RightTop.spin(forward, speed, pct);
+      //RightTop.spin(forward, speed, pct);
       RightBack.spin(forward, speed, pct);
     }
   }
@@ -123,10 +123,10 @@ void rotateBothSidesInertial(float angle, turnType direction, float initialSpeed
     Controller1.Screen.setCursor(3, 1);
     Controller1.Screen.print(speed);
     LeftFront.spin(direction == right ? forward : reverse, speed, pct);
-    LeftTop.spin(direction == right ? forward : reverse, speed, pct);
+    //LeftTop.spin(direction == right ? forward : reverse, speed, pct);
     LeftBack.spin(direction == right ? forward : reverse, speed, pct);
     RightFront.spin(direction == left ? forward : reverse, speed, pct);
-    RightTop.spin(direction == left ? forward : reverse, speed, pct);
+    //RightTop.spin(direction == left ? forward : reverse, speed, pct);
     RightBack.spin(direction == left ? forward : reverse, speed, pct);
   }
   stopDrive();

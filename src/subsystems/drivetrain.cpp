@@ -15,36 +15,36 @@ void updateDriveSpeed() {
   /* Controller1.Screen.setCursor(1, 0);
   Controller1.Screen.print("%4.f, %4.f", leftSpeed, rightSpeed); */
   LeftFront.spin(forward, leftSpeed, pct);
-  LeftTop.spin(forward, leftSpeed, pct);
+  //LeftTop.spin(forward, leftSpeed, pct);
   LeftBack.spin(forward, leftSpeed, pct);
   RightFront.spin(forward, rightSpeed, pct);
-  RightTop.spin(forward, rightSpeed, pct);
+  //RightTop.spin(forward, rightSpeed, pct);
   RightBack.spin(forward, rightSpeed, pct);
 }
 
 void stopDrive() {
   LeftFront.stop();
-  LeftTop.stop();
+  //LeftTop.stop();
   LeftBack.stop();
   RightFront.stop();
-  RightTop.stop();
+  //RightTop.stop();
   RightBack.stop();
 }
 
 void setDriveStopping(brakeType stopType) {
   LeftFront.setStopping(stopType);
-  LeftTop.setStopping(stopType);
+  //LeftTop.setStopping(stopType);
   LeftBack.setStopping(stopType);
   RightFront.setStopping(stopType);
-  RightTop.setStopping(stopType);
+  //RightTop.setStopping(stopType);
   RightBack.setStopping(stopType);
 }
 
 void  setDriveTimeout(float time) {
   LeftFront.setTimeout(time, seconds);
-  LeftTop.setTimeout(time, seconds);
+  //LeftTop.setTimeout(time, seconds);
   LeftBack.setTimeout(time, seconds);
   RightFront.setTimeout(time, seconds);
-  RightTop.setTimeout(time, seconds);
+  //RightTop.setTimeout(time, seconds);
   RightBack.setTimeout(time, seconds);
 }

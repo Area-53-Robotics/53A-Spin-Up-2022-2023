@@ -1,12 +1,6 @@
-//Functions for controlling pistons on indexer and expander
+//Functions for controlling pistons on expanders
 
 #include "subsystems\pistons.h"
-
-void shoot() {
-  Indexer.set(true);
-  wait(0.2,sec);
-  Indexer.set(false);
-}
 
 void expand() {
   Expander.set(true);

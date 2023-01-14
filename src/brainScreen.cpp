@@ -69,13 +69,13 @@ void printMotorTemperature() {
   Brain.Screen.setCursor(1, 1);
   Brain.Screen.print("Left front: %.f", LeftFront.temperature());
   Brain.Screen.setCursor(2, 1);
-  Brain.Screen.print("Left top: %.f", LeftTop.temperature());
-  Brain.Screen.setCursor(3, 1);
   Brain.Screen.print("Left back: %.f", LeftBack.temperature());
-  Brain.Screen.setCursor(4, 1);
+  Brain.Screen.setCursor(3, 1);
   Brain.Screen.print("Right front: %.f", RightFront.temperature());
-  Brain.Screen.setCursor(5, 1);
-  Brain.Screen.print("Right top: %.f", RightTop.temperature());
-  Brain.Screen.setCursor(6, 1);
+  Brain.Screen.setCursor(4, 1);
   Brain.Screen.print("Right back: %.f", RightBack.temperature());
+  /*Brain.Screen.setCursor(5, 1);
+  Brain.Screen.print("Right top: %.f", RightTop.temperature());
+  Brain.Screen.setCursor(2, 1);
+  Brain.Screen.print("Left top: %.f", LeftTop.temperature());*/
 }
