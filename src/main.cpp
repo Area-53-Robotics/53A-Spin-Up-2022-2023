@@ -45,13 +45,13 @@ void usercontrol(void) {
   Expander.set(false);
 
   //Button callbacks
-  Controller1.ButtonL1.pressed(toggleIntake);
-  Controller1.ButtonR1.pressed(changeIntakeDirection);
-  Controller1.ButtonL2.pressed(closestFlywheel);
-  Controller1.ButtonR2.pressed(rollerFlywheel);
+  Controller1.ButtonL2.pressed(setIntakeForward);
+  Controller1.ButtonDown.pressed(setIntakeReverse);
   Controller1.ButtonX.pressed(stopFlywheel);
-  Controller1.ButtonRight.pressed(closestFlywheel);
-  Controller1.ButtonUp.pressed(rollerFlywheel);
+  Controller1.ButtonA.pressed(maxFlywheel);
+  Controller1.ButtonRight.pressed(rollerFlywheel);
+  Controller1.ButtonUp.pressed(closestFlywheel);
+  Controller1.ButtonLeft.pressed(lowGoalFlywheel);
   task flyWheelSpeed(printFlywheelSpeed);
   setDriveStopping(brake);
   startIndexer();

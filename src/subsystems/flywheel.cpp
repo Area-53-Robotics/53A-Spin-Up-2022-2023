@@ -27,10 +27,18 @@ void stopFlywheel() {
   //FlywheelLower.stop(coast);
 }
 
-void closestFlywheel() { //To shoot from just outside low goal (at its corner)
+void closestFlywheel() { //To shoot from just outside close low goal (at its corner)
   setFlywheelSpeed(350, rpm);
 }
 
 void rollerFlywheel() { //To shoot from roller
   setFlywheelSpeed(425, rpm);
+}
+
+void lowGoalFlywheel() { //To shoot from just inside far low goal, at corner
+  setFlywheelSpeed(500, rpm);
+}
+
+void maxFlywheel() {
+  setFlywheelSpeed(100, velocityUnits::pct);
 }

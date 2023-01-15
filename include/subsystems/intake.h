@@ -3,9 +3,13 @@
 #pragma once
 #include "vex.h"
 
-void toggleIntake();
+void spinIntake(directionType direction);
 
-void changeIntakeDirection();
+void stopIntake();
+
+void setIntakeForward();
+
+void setIntakeReverse();
 
 void updateIntake();
 

@@ -2,21 +2,43 @@
 
 #include "subsystems\intake.h"
 
-bool intakePower = false;
-bool intakeDirection = true;
+char intakeDirection = '0';
 
 //Intake
-void toggleIntake() {
-  intakePower = !intakePower;
+void spinIntake(directionType direction) {
+  Intake.spin(direction, 100, pct);
+  Roller.spin(direction, 100, pct);
 }
 
-void changeIntakeDirection() {
-  intakeDirection = !intakeDirection;
+void stopIntake() {
+  if (Intake.isSpinning()) {
+    Intake.stop();
+  }
+  if (Roller.isSpinning()) {
+    Roller.stop();
+  }
 }
 
-void updateIntake() {
-  Intake.spin(intakeDirection ? forward : reverse, intakePower ? 100 : 0, pct);
-  Roller.spin(intakeDirection ? forward : reverse, intakePower ? 100 : 0, pct);
+void setIntakeForward() {
+  intakeDirection = intakeDirection == '+' ? '0' : '+';
+}
+
+void setIntakeReverse() {
+  intakeDirection = intakeDirection == '-' ? '0' : '-';
+}
+
+void updateIntake() { //What if you press a toggle button while holding a hold button?
+  if (Controller1.ButtonL1.pressing()) { //Make it remember which one started holding first
+    spinIntake(forward);
+  } else if (Controller1.ButtonR1.pressing()) {
+    spinIntake(reverse);
+  } else if (intakeDirection == '+') {
+    spinIntake(forward);
+  } else if (intakeDirection == '-') {
+    spinIntake(reverse);
+  } else {
+    stopIntake();
+  }
 }
 
 //Roller

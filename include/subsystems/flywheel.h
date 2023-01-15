@@ -14,3 +14,7 @@ void stopFlywheel();
 void closestFlywheel();
 
 void rollerFlywheel();
+
+void lowGoalFlywheel();
+
+void maxFlywheel();
