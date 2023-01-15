@@ -6,7 +6,7 @@
 /*    Description:  Default header for V5 projects                            */
 /*                                                                            */
 /*----------------------------------------------------------------------------*/
-//
+
 #pragma once
 
 #include <math.h>
@@ -21,8 +21,9 @@
 #include "trig.h"
 #include "subsystems\flywheel.h"
 #include "subsystems\intake.h"
-#include "subsystems\pistons.h"
+#include "subsystems\expander.h"
 #include "subsystems\drivetrain.h"
+#include "subsystems\indexer.h"
 #include "autonomous\autonMovement.h"
 #include "autonomous\autonSelector.h"
 #include "autonomous\autonPrograms.h"

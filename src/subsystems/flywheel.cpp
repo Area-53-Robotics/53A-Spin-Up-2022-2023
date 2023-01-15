@@ -7,8 +7,6 @@ int printFlywheelSpeed() { //int because required for task
   while (1) {
     Controller1.Screen.setCursor(2, 0);
     Controller1.Screen.print("Motor speed: %.2f", Flywheel.velocity(rpm));
-    Controller1.Screen.setCursor(3, 1);
-    Controller1.Screen.print("Sensor speed: %.2f", FlywheelSensor.velocity(rpm));
     task::sleep(100);
   }
   return 0;

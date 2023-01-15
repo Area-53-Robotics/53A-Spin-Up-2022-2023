@@ -17,7 +17,7 @@ motor RightFront = motor(PORT17, ratio18_1, false);
 motor Intake = motor(PORT2, ratio18_1, true);
 motor Roller = motor(PORT3, ratio36_1, true);
 digital_out Expander = digital_out(Brain.ThreeWirePort.B);
-motor Indexer = motor(PORT19, ratio18_1, true);
+motor Indexer = motor(PORT4, ratio18_1, true);
 rotation FlywheelSensor = rotation(PORT10, false);
 inertial InertialSensor = inertial(PORT11);
 

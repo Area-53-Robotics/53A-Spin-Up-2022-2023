@@ -1,9 +1,7 @@
-//Header for pistons.cpp
+//Header for expander.cpp
 
 #pragma once
 #include "vex.h"
-
-void shoot();
 
 void expand();
 

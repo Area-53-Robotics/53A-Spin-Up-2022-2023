@@ -1,6 +1,6 @@
 //Functions for controlling pistons on expanders
 
-#include "subsystems\pistons.h"
+#include "subsystems\expander.h"
 
 void expand() {
   Expander.set(true);

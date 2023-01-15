@@ -49,16 +49,17 @@ void usercontrol(void) {
   Controller1.ButtonR1.pressed(changeIntakeDirection);
   Controller1.ButtonL2.pressed(closestFlywheel);
   Controller1.ButtonR2.pressed(rollerFlywheel);
-  //Controller1.ButtonB.pressed(shoot);
   Controller1.ButtonX.pressed(stopFlywheel);
   Controller1.ButtonRight.pressed(closestFlywheel);
   Controller1.ButtonUp.pressed(rollerFlywheel);
   task flyWheelSpeed(printFlywheelSpeed);
   setDriveStopping(brake);
+  startIndexer();
   while (true) {
     updateDriveSpeed();
     updateIntake();
     checkExpansion();
+    updateIndexer();
     
     wait(20, msec); // Sleep the task for a short amount of time to
                     // prevent wasted resources.
