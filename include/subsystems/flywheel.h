@@ -9,6 +9,10 @@ void setFlywheelSpeed(float speed, velocityUnits units = velocityUnits::pct);
 
 void changeFlywheelSpeed(float speedDifference);
 
+void incrementFlywheel();
+
+void decrementFlywheel();
+
 void stopFlywheel();
 
 void closestFlywheel();

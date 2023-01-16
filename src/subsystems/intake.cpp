@@ -11,13 +11,9 @@ void spinIntake(directionType direction) {
 }
 
 void stopIntake() {
-  if (Intake.isSpinning()) {
-    Intake.stop();
+  Intake.stop();
+  Roller.stop();
   }
-  if (Roller.isSpinning()) {
-    Roller.stop();
-  }
-}
 
 void setIntakeForward() {
   intakeDirection = intakeDirection == '+' ? '0' : '+';
@@ -43,6 +39,6 @@ void updateIntake() { //What if you press a toggle button while holding a hold b
 
 //Roller
 void rotateRoller(float angle, bool blocking) {
-  Intake.spinFor(forward, angle * (35 / 3), degrees, 100, velocityUnits::pct, blocking);
-  Roller.spinFor(forward, angle, degrees, 100, velocityUnits::pct, false);
+  Intake.spinFor(forward, angle * 6, degrees, 100, velocityUnits::pct, false);
+  Roller.spinFor(forward, angle, degrees, 100, velocityUnits::pct, blocking);
 }

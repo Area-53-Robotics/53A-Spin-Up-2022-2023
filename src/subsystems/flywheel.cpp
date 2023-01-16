@@ -17,9 +17,17 @@ void setFlywheelSpeed(float speed, velocityUnits units) {
   //FlywheelLower.spin(forward, speed, units);
 }
 
-void changeFlywheelSpeed(float speedDifference) {
-  float speed = Flywheel.velocity(percent);
-  setFlywheelSpeed(speed + speedDifference);
+void changeFlywheelSpeed(float speedDifference, velocityUnits units) {
+  float speed = Flywheel.velocity(units);
+  setFlywheelSpeed(speed + speedDifference, units);
+}
+
+void incrementFlywheel() {
+  changeFlywheelSpeed(10, rpm);
+}
+
+void decrementFlywheel() {
+  changeFlywheelSpeed(-10, rpm);
 }
 
 void stopFlywheel() {
@@ -28,7 +36,7 @@ void stopFlywheel() {
 }
 
 void closestFlywheel() { //To shoot from just outside close low goal (at its corner)
-  setFlywheelSpeed(350, rpm);
+  setFlywheelSpeed(400, rpm);
 }
 
 void rollerFlywheel() { //To shoot from roller

@@ -17,7 +17,7 @@ competition Competition;
 void pre_auton(void) {
   // Initializing Robot Configuration. DO NOT REMOVE!
   vexcodeInit();
-  Indexer.setStopping(hold);
+  Indexer.set(false);
   Expander.set(false);
   drawPreautonMenu();
   Brain.Screen.pressed(brainPressEvent);
@@ -25,14 +25,15 @@ void pre_auton(void) {
 
 void autonomous(void) {
   Controller1.Screen.clearScreen();
-  //Indexer.set(false);
+  Indexer.set(false);
   Expander.set(false);
   Intake.setStopping(coast);
   Roller.setStopping(coast);
   setDriveStopping(hold);
-  if (!isCalibrated()) {
+  runAuton();
+  /*if (!isCalibrated()) {
     calibrate();
-  }
+  }*/
 }
 
 void usercontrol(void) {
@@ -41,25 +42,27 @@ void usercontrol(void) {
   //FlywheelLower.setStopping(coast);
   Intake.setStopping(coast);
   Roller.setStopping(coast);
-  //Indexer.set(false);
+  Indexer.set(false);
   Expander.set(false);
 
   //Button callbacks
   Controller1.ButtonL2.pressed(setIntakeForward);
-  Controller1.ButtonDown.pressed(setIntakeReverse);
+  Controller1.ButtonR2.pressed(setIntakeReverse);
+  Controller1.ButtonDown.pressed(decrementFlywheel);
   Controller1.ButtonX.pressed(stopFlywheel);
   Controller1.ButtonA.pressed(maxFlywheel);
+  Controller1.ButtonB.pressed(shoot);
   Controller1.ButtonRight.pressed(rollerFlywheel);
   Controller1.ButtonUp.pressed(closestFlywheel);
-  Controller1.ButtonLeft.pressed(lowGoalFlywheel);
+  Controller1.ButtonLeft.pressed(incrementFlywheel);
   task flyWheelSpeed(printFlywheelSpeed);
   setDriveStopping(brake);
-  startIndexer();
+  //startIndexer();
   while (true) {
     updateDriveSpeed();
     updateIntake();
     checkExpansion();
-    updateIndexer();
+    //updateIndexer();
     
     wait(20, msec); // Sleep the task for a short amount of time to
                     // prevent wasted resources.

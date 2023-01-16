@@ -7,4 +7,4 @@ void startIndexer();
 
 void updateIndexer();
 
-void shoot(bool blocking = true);
+void shoot();

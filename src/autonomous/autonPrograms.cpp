@@ -77,12 +77,13 @@ void skillsRoller() { //7
   setDriveTimeout(8);
   move(1.5, 20);
   rotateRoller(-180, true);
-  move(-24, 50);
+  
+  /*move(-24, 50);
   rotateBothSides(90, right);
   move(36, 30);
   rotateRoller(-180, true);
   move(-12, 50);
   rotateBothSides(135, right);
   expand();
-  move(150, 30);
+  move(150, 30);*/
 }

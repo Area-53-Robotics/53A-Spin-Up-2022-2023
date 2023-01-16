@@ -12,9 +12,8 @@ extern motor RightFront;
 extern motor Intake;
 extern motor Roller;
 extern digital_out Expander;
-extern motor Indexer;
-extern rotation FlywheelSensor;
 extern inertial InertialSensor;
+extern digital_out Indexer;
 
 /**
  * Used to initialize code/tasks/devices added using tools in VEXcode Pro.
