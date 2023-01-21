@@ -62,11 +62,11 @@ void roller() { //5
 }
 
 void rollerLowGoal() { //6
-  setFlywheelSpeed(200);
+  setFlywheelSpeed(300);
   roller();
   move(-2, 50);
   wait(200, msec);
-  rotateBothSides(90, left);
+  rotateOneSide(-90, right);
   wait(2, seconds);
   shoot();
   wait(2, seconds);

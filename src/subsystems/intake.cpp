@@ -3,6 +3,8 @@
 #include "subsystems\intake.h"
 
 char intakeDirection = '0';
+const float rollerWheelRadius = 2;
+const float rollerRadius = 2.375 / 2;
 
 //Intake
 void spinIntake(directionType direction) {
@@ -38,7 +40,8 @@ void updateIntake() { //What if you press a toggle button while holding a hold b
 }
 
 //Roller
-void rotateRoller(float angle, bool blocking) {
-  Intake.spinFor(forward, angle * 6, degrees, 100, velocityUnits::pct, false);
-  Roller.spinFor(forward, angle, degrees, 100, velocityUnits::pct, blocking);
+void rotateRoller(float rollerAngle, bool blocking) {
+  float wheelAngle = rollerAngle * (rollerRadius / rollerWheelRadius);
+  Intake.spinFor(forward, wheelAngle * 6, degrees, 100, velocityUnits::pct, false);
+  Roller.spinFor(forward, wheelAngle, degrees, 100, velocityUnits::pct, blocking);
 }

@@ -40,7 +40,7 @@ void closestFlywheel() { //To shoot from just outside close low goal (at its cor
 }
 
 void rollerFlywheel() { //To shoot from roller
-  setFlywheelSpeed(425, rpm);
+  setFlywheelSpeed(450, rpm);
 }
 
 void lowGoalFlywheel() { //To shoot from just inside far low goal, at corner

@@ -17,7 +17,7 @@ motor RightFront = motor(PORT7, ratio18_1, false);
 motor Intake = motor(PORT11, ratio6_1, true);
 motor Roller = motor(PORT12, ratio36_1, true);
 digital_out Expander = digital_out(Brain.ThreeWirePort.B);
-inertial InertialSensor = inertial(PORT19);
+inertial InertialSensor = inertial(PORT6);
 digital_out Indexer = digital_out(Brain.ThreeWirePort.A);
 
 // VEXcode generated functions

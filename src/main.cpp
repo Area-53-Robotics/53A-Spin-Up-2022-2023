@@ -31,9 +31,9 @@ void autonomous(void) {
   Roller.setStopping(coast);
   setDriveStopping(hold);
   runAuton();
-  /*if (!isCalibrated()) {
+  if (!isCalibrated()) {
     calibrate();
-  }*/
+  }
 }
 
 void usercontrol(void) {
