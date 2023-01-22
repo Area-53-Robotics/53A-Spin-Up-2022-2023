@@ -13,6 +13,7 @@ void test() { //1
   rotateOneSide(90, right, 20);
   wait(1, seconds); */
 }
+
 void rightHalfWP() { //2
   setFlywheelSpeed(475);
   move(24, 50);
@@ -38,17 +39,18 @@ void skills() { //3
   setDriveTimeout(5);
   move(1.5, 20);
   rotateRoller(-180);
-  move(-72, 100);
-  rotateBothSides(25, left);
+  move(-50, 100);
+  rotateBothSides(25, left, 10);
   shoot();
   wait(2, seconds);
   shoot();
+  wait(1, seconds);
+  rotateBothSides(100, right, 40, true, 3);
   expand();
-  move(100, 30);
 }
 
 void lowGoal() { //4
-  closestFlywheel();
+  setFlywheelSpeed(200);
   wait(5, seconds);
   shoot();
   wait(3, seconds);
@@ -66,7 +68,7 @@ void rollerLowGoal() { //6
   roller();
   move(-2, 50);
   wait(200, msec);
-  rotateOneSide(-90, right);
+  rotateBothSides(90, left);
   wait(2, seconds);
   shoot();
   wait(2, seconds);
@@ -86,4 +88,11 @@ void skillsRoller() { //7
   rotateBothSides(135, right);
   expand();
   move(150, 30);*/
+}
+
+void farSideRoller() {
+  move(-16, 30);
+  rotateBothSides(90, left, 25, true, 2);
+  move(5, 20);
+  rotateRoller(-90);
 }

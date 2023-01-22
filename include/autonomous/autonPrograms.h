@@ -16,3 +16,5 @@ void roller();
 void rollerLowGoal();
 
 void skillsRoller();
+
+void farSideRoller();

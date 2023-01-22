@@ -46,8 +46,8 @@ void usercontrol(void) {
   Expander.set(false);
 
   //Button callbacks
-  Controller1.ButtonL2.pressed(setIntakeForward);
-  Controller1.ButtonR2.pressed(setIntakeReverse);
+  Controller1.ButtonL1.pressed(setIntakeForward);
+  Controller1.ButtonR1.pressed(setIntakeReverse);
   Controller1.ButtonDown.pressed(decrementFlywheel);
   Controller1.ButtonX.pressed(stopFlywheel);
   Controller1.ButtonA.pressed(maxFlywheel);

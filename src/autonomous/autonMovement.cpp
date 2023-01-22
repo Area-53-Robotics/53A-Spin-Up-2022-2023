@@ -53,7 +53,7 @@ void rotateOneSideEncoder(float angle, turnType direction, float initialSpeed) {
   stopDrive();
 }
 
-void rotateBothSidesEncoder(float angle, turnType direction, float initialSpeed) {
+void rotateBothSidesEncoder(float angle, turnType direction, float initialSpeed, float margin) {
   float length = arcLength(angle, turnRadius);
   float spinDistance = (3.0 / 5) * arcMeasure(length, wheelRadius);
   float speed = initialSpeed;
@@ -106,13 +106,13 @@ void rotateOneSideInertial(float angle, turnType direction, float initialSpeed) 
   stopDrive();
 }
 
-void rotateBothSidesInertial(float angle, turnType direction, float initialSpeed) {
+void rotateBothSidesInertial(float angle, turnType direction, float initialSpeed, float margin) {
   float speed = initialSpeed;
   float currentAngle = 0;
   float proportionalError;
   InertialSensor.resetRotation();
   Controller1.Screen.clearLine(3);
-  while (fabs(angle - currentAngle) > 1) {
+  while (fabs(angle - currentAngle) > margin) {
     currentAngle = fabs(InertialSensor.rotation());
     proportionalError = (angle - currentAngle) / angle;
     speed = initialSpeed * proportionalError;
@@ -132,7 +132,7 @@ void rotateBothSidesInertial(float angle, turnType direction, float initialSpeed
   stopDrive();
 }
 
-void rotateOneSide(float angle, turnType direction, float initialSpeed, float sensor) {
+void rotateOneSide(float angle, turnType direction, float initialSpeed, bool sensor) {
   if (sensor) {
     rotateOneSideInertial(angle, direction, initialSpeed);
   } else {
@@ -140,10 +140,10 @@ void rotateOneSide(float angle, turnType direction, float initialSpeed, float se
   }
 }
 
-void rotateBothSides(float angle, turnType direction, float initialSpeed, float sensor) {
+void rotateBothSides(float angle, turnType direction, float initialSpeed, bool sensor, float margin) {
   if (sensor) {
-    rotateBothSidesInertial(angle, direction, initialSpeed);
+    rotateBothSidesInertial(angle, direction, initialSpeed, margin);
   } else {
-    rotateBothSidesEncoder(angle, direction, initialSpeed);
+    rotateBothSidesEncoder(angle, direction, initialSpeed, margin);
   }
 }

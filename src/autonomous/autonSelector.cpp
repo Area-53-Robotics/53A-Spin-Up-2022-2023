@@ -2,10 +2,10 @@
 
 #include "autonomous\autonSelector.h"
 
-int selectedAuton = 0;
+int selectedAuton = 8;
 
 void changeAuton() { //Auton selector
-  if (selectedAuton >= 7) {
+  if (selectedAuton >= 8) {
     selectedAuton = 0;
   } else {
     selectedAuton++;
@@ -48,6 +48,10 @@ void printAutonDescription() {
     autonDescription = "Skills with 2 rollers";
     break;
 
+    case 8:
+    autonDescription = "Spin non-driver-side roller";
+    break;
+
     default:
     autonDescription = "Index out of bounds";
     break;
@@ -86,5 +90,8 @@ void runAuton() {
       case 7:
       skillsRoller();
       break;
+
+      case 8:
+      farSideRoller();
     }
 }

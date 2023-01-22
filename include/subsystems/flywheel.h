@@ -5,7 +5,7 @@
 
 int printFlywheelSpeed();
 
-void setFlywheelSpeed(float speed, velocityUnits units = velocityUnits::pct);
+void setFlywheelSpeed(float speed, velocityUnits units = rpm);
 
 void changeFlywheelSpeed(float speedDifference);
 
