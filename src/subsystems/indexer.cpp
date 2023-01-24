@@ -21,6 +21,6 @@ void updateIndexer() {
 void shoot() {
   //Indexer.rotateFor(forward, 360 , degrees, 100, velocityUnits::pct, blocking);
   Indexer.set(true);
-  wait(0.04, sec);
+  wait(0.03, sec);
   Indexer.set(false);
 }

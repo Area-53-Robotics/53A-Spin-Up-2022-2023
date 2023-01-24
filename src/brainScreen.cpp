@@ -55,9 +55,9 @@ void drawPreautonMenu() {
   Brain.Screen.setCursor(4, 2);
   Brain.Screen.print("sensor");
   Brain.Screen.setCursor(8, 2);
-  Brain.Screen.print("Print drive");
+  Brain.Screen.print("Print motor");
   Brain.Screen.setCursor(9, 2);
-  Brain.Screen.print("motor temperatures");
+  Brain.Screen.print("temperatures");
   Brain.Screen.setCursor(3, 30);
   Brain.Screen.print("Switch auton");
   Brain.Screen.setCursor(9, 30);
@@ -74,6 +74,12 @@ void printMotorTemperature() {
   Brain.Screen.print("Right front: %.f", RightFront.temperature());
   Brain.Screen.setCursor(4, 1);
   Brain.Screen.print("Right back: %.f", RightBack.temperature());
+  Brain.Screen.setCursor(5, 1);
+  Brain.Screen.print("Flywheel: %.f", Flywheel.temperature());
+  Brain.Screen.setCursor(6, 1);
+  Brain.Screen.print("Intake: %.f", Intake.temperature());
+  Brain.Screen.setCursor(7, 1);
+  Brain.Screen.print("Roller: %.f", Roller.temperature());
   /*Brain.Screen.setCursor(5, 1);
   Brain.Screen.print("Right top: %.f", RightTop.temperature());
   Brain.Screen.setCursor(2, 1);
