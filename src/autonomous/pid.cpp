@@ -2,6 +2,5 @@
 
 #include "autonomous\pid.h"
 
-void startPID(float (*measurement)(), float setPoint, float proportionalCoefficient, float integralCoefficient, float derivativeCoefficient) {
-  
-}
+PID::PID(float (*process)(), float target, float kP, float kI, float kD) 
+  : measurement(process), proportionalCoefficient(kP), integralCoefficient(kI), derivativeCoefficient(kD) {}

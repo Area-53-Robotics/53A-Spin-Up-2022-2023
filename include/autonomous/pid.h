@@ -3,4 +3,15 @@
 #pragma once
 #include "vex.h"
 
-void startPID(float (*measurement)(), float setPoint, float proportionalCoefficient, float integralCoefficient = 0, float derivativeCoefficient = 0);
+class PID {
+  private:
+  float (*measurement)();
+  float setPoint;
+  const float proportionalCoefficient;
+  const float integralCoefficient;
+  const float derivativeCoefficient;
+  float error;
+
+  public:
+  PID(float (*process)(), float target, float kP, float kI = 0, float kD = 0);
+};
