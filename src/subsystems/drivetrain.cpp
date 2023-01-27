@@ -40,11 +40,15 @@ void setDriveStopping(brakeType stopType) {
   RightBack.setStopping(stopType);
 }
 
-void  setDriveTimeout(float time) {
+void setDriveTimeout(float time) {
   LeftFront.setTimeout(time, seconds);
   //LeftTop.setTimeout(time, seconds);
   LeftBack.setTimeout(time, seconds);
   RightFront.setTimeout(time, seconds);
   //RightTop.setTimeout(time, seconds);
   RightBack.setTimeout(time, seconds);
+}
+
+float getRotation() {
+  return InertialSensor.rotation();
 }

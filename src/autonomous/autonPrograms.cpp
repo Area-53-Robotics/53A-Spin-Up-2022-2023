@@ -3,31 +3,25 @@
 #include "autonomous\autonPrograms.h"
 
 void test() { //1
-  move(24, 50);
-  //rotateBothSides(45, right, 13);
-  /* wait(1, seconds);
-  rotateBothSides(90, right, 20);
+  rotate(90, left);
   wait(1, seconds);
-  rotateOneSide(90, left, 20);
-  wait(1, seconds);
-  rotateOneSide(90, right, 20);
-  wait(1, seconds); */
+  rotate(90, right);
 }
 
 void rightHalfWP() { //2
   setFlywheelSpeed(475);
   move(24, 50);
   wait(100, msec);
-  rotateBothSides(45, right, 13);
+  rotate(45, right);
   move(18, 50);
   wait(100, msec);
-  rotateBothSides(45, right, 13);
+  rotate(45, right);
   setDriveTimeout(3);
   move(12, 20);
   rotateRoller(-90);
   move(-12, 50);
   wait(100, msec);
-  rotateBothSides(10, right, 5);
+  rotate(10, right);
   shoot();
   setFlywheelSpeed(480);
   wait(2, seconds);
@@ -40,12 +34,12 @@ void skills() { //3
   move(1.5, 20);
   rotateRoller(-180);
   move(-50, 100);
-  rotateBothSides(25, left, 10);
+  rotate(25, left);
   shoot();
   wait(2, seconds);
   shoot();
   wait(1, seconds);
-  rotateBothSides(100, right, 40, true, 3);
+  rotate(100, right, 3);
   expand();
 }
 
@@ -68,7 +62,7 @@ void rollerLowGoal() { //6
   roller();
   move(-2, 50);
   wait(200, msec);
-  rotateBothSides(90, left);
+  rotate(90, left);
   wait(2, seconds);
   shoot();
   wait(2, seconds);
@@ -92,7 +86,7 @@ void skillsRoller() { //7
 
 void farSideRoller() {
   move(-16, 30);
-  rotateBothSides(90, left, 25, true, 2);
+  rotate(90, left, 2);
   move(5, 20);
   rotateRoller(-90);
 }

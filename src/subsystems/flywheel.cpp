@@ -3,7 +3,7 @@
 #include "subsystems\flywheel.h"
 
 int printFlywheelSpeed() { //int because required for task
-  //Make sure line 3 is clear before using
+  //Make sure line is clear before using
   while (1) {
     Controller1.Screen.setCursor(2, 0);
     Controller1.Screen.print("Motor speed: %.2f", Flywheel.velocity(rpm));

@@ -19,7 +19,7 @@ void move(float length, float speed, bool blocking) { //Drive in a straight line
   RightBack.spinFor(spinDistance, degrees, speed, velocityUnits::pct, blocking);
 }
 
-void rotateOneSideEncoder(float angle, turnType direction, float initialSpeed) {
+/* void rotateOneSideEncoder(float angle, turnType direction, float initialSpeed) {
   float length = arcLength(angle, turnRadius * 2);
   float spinDistance = (3.0 / 5) * arcMeasure(length, wheelRadius); //Adjusted for gear ratio
   float distanceSpun;
@@ -146,4 +146,26 @@ void rotateBothSides(float angle, turnType direction, float initialSpeed, bool s
   } else {
     rotateBothSidesEncoder(angle, direction, initialSpeed, margin);
   }
+}
+ */
+void rotate(float angle, turnType direction, float margin, bool oneSide) {
+  PID turnSpeedController = PID(getRotation, direction == right ? angle : angle * -1, 0.5);
+  float turnSpeed;
+  do {
+    turnSpeed = turnSpeedController.update();
+    if (!oneSide) {
+      LeftFront.spin(forward, turnSpeed, pct);
+      LeftBack.spin(forward, turnSpeed, pct);
+      RightFront.spin(reverse, turnSpeed, pct);
+      RightBack.spin(reverse, turnSpeed, pct);
+    } else {
+      if (direction == right) {
+        LeftFront.spin(forward, turnSpeed, pct);
+        LeftBack.spin(forward, turnSpeed, pct);
+      } else {
+        RightFront.spin(forward, turnSpeed, pct);
+        RightBack.spin(forward, turnSpeed, pct);
+      }
+    }
+  } while (fabs(turnSpeed) > margin);
 }

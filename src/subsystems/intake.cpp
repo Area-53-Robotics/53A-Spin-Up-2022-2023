@@ -26,9 +26,9 @@ void setIntakeReverse() {
 }
 
 void updateIntake() { //What if you press a toggle button while holding a hold button?
-  if (Controller1.ButtonL2.pressing()) { //Make it remember which one started holding first
+  if (Controller1.ButtonL1.pressing()) { //Make it remember which one started holding first
     spinIntake(forward);
-  } else if (Controller1.ButtonR2.pressing()) {
+  } else if (Controller1.ButtonR1.pressing()) {
     spinIntake(reverse);
   } else if (intakeDirection == '+') {
     spinIntake(forward);

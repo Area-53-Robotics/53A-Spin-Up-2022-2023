@@ -12,4 +12,6 @@ void stopDrive();
 
 void setDriveStopping(brakeType stopType);
 
-void  setDriveTimeout(float time);
+void setDriveTimeout(float time);
+
+float getRotation();
