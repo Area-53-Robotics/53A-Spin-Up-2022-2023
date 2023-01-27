@@ -10,8 +10,12 @@ class PID {
   const float proportionalCoefficient;
   const float integralCoefficient;
   const float derivativeCoefficient;
-  float error;
+  float currentError;
+  float totalError;
+  float previousError;
+  float errorChange;
 
   public:
   PID(float (*process)(), float target, float kP, float kI = 0, float kD = 0);
+  float update();
 };
