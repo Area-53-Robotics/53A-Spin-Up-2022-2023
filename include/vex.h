@@ -28,6 +28,7 @@
 #include "autonomous\autonSelector.h"
 #include "autonomous\autonPrograms.h"
 #include "autonomous\pid.h"
+#include "autonomous\recording.h"
 #include "brainScreen.h"
 
 #define waitUntil(condition)                                                   \

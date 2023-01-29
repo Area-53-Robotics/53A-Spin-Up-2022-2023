@@ -90,3 +90,14 @@ void farSideRoller() {
   move(5, 20);
   rotateRoller(-90);
 }
+
+void replay() {
+  char voltage[8] = "0";
+  std::ifstream autonFile("autonFile.txt");
+  while(!autonFile.is_open()) {
+    wait(20, msec);
+  }
+  while (sizeof(voltage) != 0) {
+    autonFile.getline(voltage, 8);
+  }
+}

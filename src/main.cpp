@@ -50,6 +50,7 @@ void usercontrol(void) {
   Controller1.ButtonR2.pressed(setIntakeReverse);
   Controller1.ButtonDown.pressed(decrementFlywheel);
   Controller1.ButtonX.pressed(stopFlywheel);
+  //Controller1.ButtonY.pressed(toggleRecording);
   Controller1.ButtonA.pressed(maxFlywheel);
   Controller1.ButtonB.pressed(shoot);
   Controller1.ButtonRight.pressed(rollerFlywheel);

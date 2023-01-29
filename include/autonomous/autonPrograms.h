@@ -18,3 +18,5 @@ void rollerLowGoal();
 void skillsRoller();
 
 void farSideRoller();
+
+void replay();
