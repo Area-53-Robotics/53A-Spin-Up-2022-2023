@@ -7,7 +7,7 @@ void expand() {
 }
 
 void checkExpansion() {
-  if (Controller1.ButtonB.pressing() && Controller1.ButtonDown.pressing()) {
+  if (Controller1.ButtonL2.pressing() && Controller1.ButtonR2.pressing()) {
     expand();
   }
 }

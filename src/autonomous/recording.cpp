@@ -3,7 +3,6 @@
 #include "autonomous\recording.h"
 
 std::ofstream autonFile;
-motor recordedMotors[4] = {LeftFront, LeftBack, RightFront, RightBack};
 bool recording = false;
 
 int record() {

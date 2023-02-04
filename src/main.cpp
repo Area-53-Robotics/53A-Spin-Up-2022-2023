@@ -19,6 +19,7 @@ void pre_auton(void) {
   vexcodeInit();
   Indexer.set(false);
   Expander.set(false);
+  FlywheelRamp.set(false);
   drawPreautonMenu();
   Brain.Screen.pressed(brainPressEvent);
 }
@@ -27,6 +28,7 @@ void autonomous(void) {
   Controller1.Screen.clearScreen();
   Indexer.set(false);
   Expander.set(false);
+  FlywheelRamp.set(false);
   Intake.setStopping(coast);
   Roller.setStopping(coast);
   setDriveStopping(hold);
@@ -44,18 +46,18 @@ void usercontrol(void) {
   Roller.setStopping(coast);
   Indexer.set(false);
   Expander.set(false);
+  FlywheelRamp.set(false);
+  closestFlywheel();
 
   //Button callbacks
-  Controller1.ButtonL2.pressed(setIntakeForward);
-  Controller1.ButtonR2.pressed(setIntakeReverse);
-  Controller1.ButtonDown.pressed(decrementFlywheel);
+  Controller1.ButtonDown.pressed(closestFlywheel);
   Controller1.ButtonX.pressed(stopFlywheel);
   //Controller1.ButtonY.pressed(toggleRecording);
-  Controller1.ButtonA.pressed(maxFlywheel);
+  Controller1.ButtonA.pressed(toggleFlywheelRamp);
   Controller1.ButtonB.pressed(shoot);
-  Controller1.ButtonRight.pressed(rollerFlywheel);
-  Controller1.ButtonUp.pressed(closestFlywheel);
-  Controller1.ButtonLeft.pressed(incrementFlywheel);
+  Controller1.ButtonRight.pressed(decrementFlywheel);
+  Controller1.ButtonUp.pressed(incrementFlywheel);
+  Controller1.ButtonLeft.pressed(rollerFlywheel);
   task flyWheelSpeed(printFlywheelSpeed);
   setDriveStopping(brake);
   //startIndexer();

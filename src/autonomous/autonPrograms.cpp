@@ -93,11 +93,19 @@ void farSideRoller() {
 
 void replay() {
   char voltage[8] = "0";
-  std::ifstream autonFile("autonFile.txt");
+  std::ifstream autonFile("recordedAuton.txt");
   while(!autonFile.is_open()) {
     wait(20, msec);
   }
   while (sizeof(voltage) != 0) {
-    autonFile.getline(voltage, 8);
+    for (motor recordedMotor : recordedMotors) {
+      autonFile.getline(voltage, 8);
+      recordedMotor.spin(forward, atof(voltage), volt);
+    }
+    wait(20, msec);
+  }
+  autonFile.close();
+  while(autonFile.is_open()) {
+    wait(20, msec);
   }
 }

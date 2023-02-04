@@ -2,7 +2,7 @@
 
 #include "autonomous\autonSelector.h"
 
-int selectedAuton = 9;
+int selectedAuton = 1;
 
 void changeAuton() { //Auton selector
   if (selectedAuton >= 9) {

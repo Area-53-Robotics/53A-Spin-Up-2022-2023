@@ -14,6 +14,9 @@ extern motor Roller;
 extern digital_out Expander;
 extern inertial InertialSensor;
 extern digital_out Indexer;
+extern digital_out FlywheelRamp;
+extern rotation TrackParallel;
+extern rotation TrackPerpendicular;
 
 /**
  * Used to initialize code/tasks/devices added using tools in VEXcode Pro.

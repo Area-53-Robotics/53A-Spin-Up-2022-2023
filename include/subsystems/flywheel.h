@@ -22,3 +22,5 @@ void rollerFlywheel();
 void lowGoalFlywheel();
 
 void maxFlywheel();
+
+void toggleFlywheelRamp();

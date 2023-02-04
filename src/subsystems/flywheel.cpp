@@ -2,11 +2,15 @@
 
 #include "subsystems\flywheel.h"
 
+bool printing = false;
+
 int printFlywheelSpeed() { //int because required for task
   //Make sure line is clear before using
   while (1) {
-    Controller1.Screen.setCursor(2, 0);
-    Controller1.Screen.print("Motor speed: %.2f", Flywheel.velocity(rpm));
+    if (!printing) {
+      Controller1.Screen.setCursor(2, 0);
+      Controller1.Screen.print("Motor speed: %.2f", Flywheel.velocity(rpm));
+    }
     task::sleep(100);
   }
   return 0;
@@ -36,7 +40,7 @@ void stopFlywheel() {
 }
 
 void closestFlywheel() { //To shoot from just outside close low goal (at its corner)
-  setFlywheelSpeed(400, rpm);
+  setFlywheelSpeed(350, rpm);
 }
 
 void rollerFlywheel() { //To shoot from roller
@@ -49,4 +53,14 @@ void lowGoalFlywheel() { //To shoot from just inside far low goal, at corner
 
 void maxFlywheel() {
   setFlywheelSpeed(100, velocityUnits::pct);
+}
+
+void toggleFlywheelRamp() {
+  bool rampPosition = FlywheelRamp.value();
+  FlywheelRamp.set(!rampPosition);
+  printing = true;
+  Controller1.Screen.setCursor(1, 0);
+  Controller1.Screen.clearLine();
+  Controller1.Screen.print("Ramp is %s!" , rampPosition ? "down" : "up");
+  printing = false;
 }
