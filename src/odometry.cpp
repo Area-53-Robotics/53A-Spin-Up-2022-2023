@@ -12,6 +12,9 @@ const float goalYPosition = 122.63;
 const float trackingWheelRadius = 2.75/2;
 float robotXPosition;
 float robotYPosition;
+float yDifference;
+float xDifference;
+mutex positionLock;
 
 int updateRobotPosition() {
   float parallelAngle = 0;
@@ -22,28 +25,61 @@ int updateRobotPosition() {
   float perpendicularAngleChange;
   float parallelDistance;
   float perpendicularDistance;
+  float yDistance;
+  float xDistance;
+  float heading;
   TrackParallel.resetPosition();
   TrackPerpendicular.resetPosition();
 
   while (1) {
+    positionLock.lock();
     parallelAngle = TrackParallel.position(degrees);
     perpendicularAngle = TrackPerpendicular.position(degrees);
+    heading = toRadians(InertialSensor.heading(degrees));
+
     parallelAngleChange = parallelAngle - previousParallelAngle;
     perpendicularAngleChange = perpendicularAngle - previousPerpendicularAngle;
 
     parallelDistance = arcLength(parallelAngleChange, trackingWheelRadius);
     perpendicularDistance = arcLength(perpendicularAngleChange, trackingWheelRadius);
+
+    yDistance = parallelDistance * cos(heading) + perpendicularDistance * sin(heading);
+    xDistance = parallelDistance * sin(heading) + perpendicularDistance * cos(heading);
+
+    robotYPosition += yDistance;
+    robotXPosition += xDistance;
+    positionLock.unlock();
+    task::sleep(20);
   }
 
   return 1;
 }
 
+void startOdometry(float yPosition , float xPosition, float angle) {
+  robotYPosition = yPosition;
+  robotXPosition = xPosition;
+  InertialSensor.setHeading(angle, degrees);
+  task odometer(updateRobotPosition);
+}
+
+void updateDistance() {
+  xDifference = robotXPosition - goalXPosition;
+  yDifference = robotYPosition - goalYPosition;
+}
+
 float getDistanceToGoal() {
-  float xDifference = robotXPosition - goalXPosition;
-  float yDifference = robotYPosition - goalYPosition;
+  positionLock.lock();
+  updateDistance();
   return sqrt(pow(xDifference, 2) + pow(yDifference, 2));
+  positionLock.unlock();
 }
 
 float getAngleToGoal() {
-  return 0;
+  positionLock.lock();
+  float angle = toDegrees(atan(yDifference / xDifference));
+  if (xDifference < 0) {
+    angle += 180;
+  }
+  positionLock.unlock();
+  return angle;
 }
