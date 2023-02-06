@@ -30,6 +30,7 @@
 #include "autonomous\pid.h"
 #include "autonomous\recording.h"
 #include "brainScreen.h"
+#include "odometry.h"
 
 #define waitUntil(condition)                                                   \
   do {                                                                         \

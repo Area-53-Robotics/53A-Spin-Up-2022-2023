@@ -2,14 +2,25 @@
 
 #include "subsystems\flywheel.h"
 
-bool printing = false;
-
 int printFlywheelSpeed() { //int because required for task
+  int cycleCount = 0;
   //Make sure line is clear before using
   while (1) {
-    if (!printing) {
-      Controller1.Screen.setCursor(2, 0);
-      Controller1.Screen.print("Motor speed: %.2f", Flywheel.velocity(rpm));
+    Controller1.Screen.setCursor(2, 0);
+    Controller1.Screen.print("Motor speed: %.2f", Flywheel.velocity(rpm));
+    if (FlywheelRamp.value()) { //Dashes indicate flywheel ramp is up
+      cycleCount++;
+      if (cycleCount == 1) {
+        Controller1.Screen.setCursor(1, 0);
+        Controller1.Screen.print("==================");
+        Controller1.Screen.setCursor(3, 0);
+        Controller1.Screen.print("==================");
+      } else if (cycleCount == 3) {
+        Controller1.Screen.clearLine(1);
+        Controller1.Screen.clearLine(3);
+      } else if (cycleCount == 4) {
+        cycleCount = 0;
+      }
     }
     task::sleep(100);
   }
@@ -56,11 +67,7 @@ void maxFlywheel() {
 }
 
 void toggleFlywheelRamp() {
-  bool rampPosition = FlywheelRamp.value();
-  FlywheelRamp.set(!rampPosition);
-  printing = true;
-  Controller1.Screen.setCursor(1, 0);
-  Controller1.Screen.clearLine();
-  Controller1.Screen.print("Ramp is %s!" , rampPosition ? "down" : "up");
-  printing = false;
+  FlywheelRamp.set(!FlywheelRamp.value());
+  Controller1.Screen.clearLine(1);
+  Controller1.Screen.clearLine(3);
 }
