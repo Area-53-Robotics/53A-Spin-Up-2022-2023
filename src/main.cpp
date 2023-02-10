@@ -17,7 +17,7 @@ competition Competition;
 void pre_auton(void) {
   // Initializing Robot Configuration. DO NOT REMOVE!
   vexcodeInit();
-  Indexer.set(false);
+  //Indexer.set(false);
   Expander.set(false);
   FlywheelRamp.set(false);
   drawPreautonMenu();
@@ -26,7 +26,7 @@ void pre_auton(void) {
 
 void autonomous(void) {
   Controller1.Screen.clearScreen();
-  Indexer.set(false);
+  //Indexer.set(false);
   Expander.set(false);
   FlywheelRamp.set(false);
   Intake.setStopping(coast);
@@ -44,21 +44,25 @@ void usercontrol(void) {
   //FlywheelLower.setStopping(coast);
   Intake.setStopping(coast);
   Roller.setStopping(coast);
-  Indexer.set(false);
+  Indexer.setStopping(coast);
+  //Indexer.set(false);
   Expander.set(false);
   FlywheelRamp.set(false);
   closestFlywheel();
+  startOdometry(122.63, 20, 0);
 
   //Button callbacks
   Controller1.ButtonDown.pressed(closestFlywheel);
   Controller1.ButtonX.pressed(stopFlywheel);
   //Controller1.ButtonY.pressed(toggleRecording);
+  Controller1.ButtonY.pressed(printRelativePosition);
   Controller1.ButtonA.pressed(toggleFlywheelRamp);
   Controller1.ButtonB.pressed(shoot);
   Controller1.ButtonRight.pressed(decrementFlywheel);
   Controller1.ButtonUp.pressed(incrementFlywheel);
   Controller1.ButtonLeft.pressed(rollerFlywheel);
-  task flyWheelSpeed(printFlywheelSpeed);
+
+  task flyWheelInfo(printFlywheelInfo);
   setDriveStopping(brake);
   //startIndexer();
   while (true) {

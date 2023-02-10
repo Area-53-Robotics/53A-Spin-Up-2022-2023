@@ -3,7 +3,9 @@
 #pragma once
 #include "vex.h"
 
-int printFlywheelSpeed();
+extern mutex controllerScreen;
+
+int printFlywheelInfo();
 
 void setFlywheelSpeed(float speed, velocityUnits units = rpm);
 

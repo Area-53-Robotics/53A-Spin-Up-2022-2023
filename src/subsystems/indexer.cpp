@@ -2,7 +2,7 @@
 
 #include "subsystems\indexer.h"
 
-int startingPosition = 160;
+//int startingPosition = 160;
 
 void startIndexer() {
   //Indexer.rotateFor(forward, startingPosition, degrees, 100, velocityUnits::pct, false);
@@ -19,8 +19,9 @@ void updateIndexer() {
 }
 
 void shoot() {
-  //Indexer.rotateFor(forward, 360 , degrees, 100, velocityUnits::pct, blocking);
-  Indexer.set(true);
-  wait(0.15, sec); //0.03
-  Indexer.set(false);
+  Indexer.rotateFor(forward, 55, degrees, 100, velocityUnits::pct);
+  Indexer.rotateFor(forward, -55, degrees, 100, velocityUnits::pct, false);
+  /*Indexer.set(true);
+  wait(0.03, sec);
+  Indexer.set(false);*/
 }

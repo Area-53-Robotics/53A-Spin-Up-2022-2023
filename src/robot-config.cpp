@@ -18,10 +18,10 @@ motor Intake = motor(PORT11, ratio6_1, true);
 motor Roller = motor(PORT12, ratio36_1, true);
 digital_out Expander = digital_out(Brain.ThreeWirePort.B);
 inertial InertialSensor = inertial(PORT6);
-digital_out Indexer = digital_out(Brain.ThreeWirePort.A);
 digital_out FlywheelRamp = digital_out(Brain.ThreeWirePort.C);
 rotation TrackParallel = rotation(PORT19, false);
 rotation TrackPerpendicular = rotation(PORT20, false);
+motor Indexer = motor(PORT2, ratio18_1, true);
 
 // VEXcode generated functions
 // define variable for remote controller enable/disable

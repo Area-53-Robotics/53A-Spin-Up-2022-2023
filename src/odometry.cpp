@@ -51,11 +51,10 @@ int updateRobotPosition() {
     positionLock.unlock();
     task::sleep(20);
   }
-
   return 1;
 }
 
-void startOdometry(float yPosition , float xPosition, float angle) {
+void startOdometry(float yPosition , float xPosition, float angle) { //Facing +X is 0 degrees
   robotYPosition = yPosition;
   robotXPosition = xPosition;
   InertialSensor.setHeading(angle, degrees);
@@ -63,8 +62,8 @@ void startOdometry(float yPosition , float xPosition, float angle) {
 }
 
 void updateDistance() {
-  xDifference = robotXPosition - goalXPosition;
-  yDifference = robotYPosition - goalYPosition;
+  yDifference = goalYPosition - robotYPosition;
+  xDifference = goalXPosition - robotXPosition;
 }
 
 float getDistanceToGoal() {
@@ -76,10 +75,20 @@ float getDistanceToGoal() {
 
 float getAngleToGoal() {
   positionLock.lock();
-  float angle = toDegrees(atan(yDifference / xDifference));
+  updateDistance();
+  float angle = toDegrees(atan(yDifference / xDifference)) - InertialSensor.heading();
   if (xDifference < 0) {
     angle += 180;
   }
   positionLock.unlock();
   return angle;
+}
+
+void printRelativePosition() {
+  controllerScreen.lock();
+  Controller1.Screen.setCursor(2, 0);
+  Controller1.Screen.print("%4.1f in. to goal", getDistanceToGoal());
+  Controller1.Screen.setCursor(3, 0);
+  Controller1.Screen.print("%3.1f degrees to goal", getAngleToGoal());
+  controllerScreen.unlock();
 }

@@ -12,3 +12,5 @@ void updateDistance();
 float getDistanceToGoal();
 
 float getAngleToGoal();
+
+void printRelativePosition();
