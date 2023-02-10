@@ -55,7 +55,7 @@ void usercontrol(void) {
   Controller1.ButtonDown.pressed(closestFlywheel);
   Controller1.ButtonX.pressed(stopFlywheel);
   //Controller1.ButtonY.pressed(toggleRecording);
-  Controller1.ButtonY.pressed(printRelativePosition);
+  //Controller1.ButtonY.pressed(printRelativePosition);
   Controller1.ButtonA.pressed(toggleFlywheelRamp);
   Controller1.ButtonB.pressed(shoot);
   Controller1.ButtonRight.pressed(decrementFlywheel);

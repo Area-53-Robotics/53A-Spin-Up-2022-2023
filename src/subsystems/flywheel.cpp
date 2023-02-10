@@ -5,13 +5,13 @@
 mutex controllerScreen;
 
 int printFlywheelInfo() { //int because required for task
-  //int cycleCount = 0;
+  int cycleCount = 0;
   //Make sure line is clear before using
   while (1) {
     controllerScreen.lock();
-    Controller1.Screen.setCursor(1, 0);
+    Controller1.Screen.setCursor(2, 0);
     Controller1.Screen.print("Motor speed: %.2f", Flywheel.velocity(rpm));
-    /*if (FlywheelRamp.value()) { //Dashes indicate flywheel ramp is up
+    if (FlywheelRamp.value()) { //Dashes indicate flywheel ramp is up
       cycleCount++;
       if (cycleCount == 1) {
         Controller1.Screen.setCursor(1, 0);
@@ -24,7 +24,7 @@ int printFlywheelInfo() { //int because required for task
       } else if (cycleCount == 4) {
         cycleCount = 0;
       }
-    }*/
+    }
     controllerScreen.unlock();
     task::sleep(100);
   }

@@ -80,6 +80,8 @@ void printMotorTemperature() {
   Brain.Screen.print("Intake: %.f", Intake.temperature());
   Brain.Screen.setCursor(7, 1);
   Brain.Screen.print("Roller: %.f", Roller.temperature());
+  Brain.Screen.setCursor(8, 1);
+  Brain.Screen.print("Indexer: %.f", Indexer.temperature());
   /*Brain.Screen.setCursor(5, 1);
   Brain.Screen.print("Right top: %.f", RightTop.temperature());
   Brain.Screen.setCursor(2, 1);

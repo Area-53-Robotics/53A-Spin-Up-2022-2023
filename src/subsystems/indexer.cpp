@@ -19,8 +19,12 @@ void updateIndexer() {
 }
 
 void shoot() {
-  Indexer.rotateFor(forward, 55, degrees, 100, velocityUnits::pct);
-  Indexer.rotateFor(forward, -55, degrees, 100, velocityUnits::pct, false);
+  Indexer.rotateTo(70, degrees, 100, velocityUnits::pct); //90, 60, 55, 40, 50, 65, 75, 70
+  Indexer.rotateTo(0, degrees, 100, velocityUnits::pct);
+  if (Controller1.ButtonB.pressing()) {
+    wait(0.09, sec); //0.1, 0.08, 0.09
+    shoot();
+  }
   /*Indexer.set(true);
   wait(0.03, sec);
   Indexer.set(false);*/
