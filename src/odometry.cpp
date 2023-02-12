@@ -86,7 +86,7 @@ float getAngleToGoal() {
 
 void printRelativePosition() {
   controllerScreen.lock();
-  Controller1.Screen.setCursor(2, 0);
+  Controller1.Screen.setCursor(1, 0);
   Controller1.Screen.print("%4.1f in. to goal", getDistanceToGoal());
   Controller1.Screen.setCursor(3, 0);
   Controller1.Screen.print("%3.1f degrees to goal", getAngleToGoal());

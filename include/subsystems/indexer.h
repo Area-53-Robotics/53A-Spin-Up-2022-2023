@@ -7,4 +7,10 @@ void startIndexer();
 
 void updateIndexer();
 
+void increaseDelay();
+
+void decreaseDelay();
+
+void printDelay();
+
 void shoot();

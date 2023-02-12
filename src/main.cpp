@@ -48,19 +48,21 @@ void usercontrol(void) {
   //Indexer.set(false);
   Expander.set(false);
   FlywheelRamp.set(false);
-  closestFlywheel();
+  //closestFlywheel();
   startOdometry(122.63, 20, 0);
 
   //Button callbacks
   Controller1.ButtonDown.pressed(closestFlywheel);
   Controller1.ButtonX.pressed(stopFlywheel);
   //Controller1.ButtonY.pressed(toggleRecording);
-  //Controller1.ButtonY.pressed(printRelativePosition);
+  Controller1.ButtonY.pressed(printRelativePosition);
   Controller1.ButtonA.pressed(toggleFlywheelRamp);
   Controller1.ButtonB.pressed(shoot);
   Controller1.ButtonRight.pressed(decrementFlywheel);
   Controller1.ButtonUp.pressed(incrementFlywheel);
   Controller1.ButtonLeft.pressed(rollerFlywheel);
+  Controller1.ButtonR2.pressed(increaseDelay);
+  Controller1.ButtonL2.pressed(decreaseDelay);
 
   task flyWheelInfo(printFlywheelInfo);
   setDriveStopping(brake);

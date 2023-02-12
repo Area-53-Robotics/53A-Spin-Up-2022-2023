@@ -14,12 +14,12 @@ int printFlywheelInfo() { //int because required for task
     if (FlywheelRamp.value()) { //Dashes indicate flywheel ramp is up
       cycleCount++;
       if (cycleCount == 1) {
-        Controller1.Screen.setCursor(1, 0);
-        Controller1.Screen.print("==================");
+        /*Controller1.Screen.setCursor(1, 0);
+        Controller1.Screen.print("==================");*/
         Controller1.Screen.setCursor(3, 0);
         Controller1.Screen.print("==================");
       } else if (cycleCount == 3) {
-        Controller1.Screen.clearLine(1);
+        //Controller1.Screen.clearLine(1);
         Controller1.Screen.clearLine(3);
       } else if (cycleCount == 4) {
         cycleCount = 0;
@@ -59,7 +59,7 @@ void closestFlywheel() { //To shoot from just outside close low goal (at its cor
 }
 
 void rollerFlywheel() { //To shoot from roller
-  setFlywheelSpeed(450, rpm);
+  setFlywheelSpeed(385, rpm);
 }
 
 void lowGoalFlywheel() { //To shoot from just inside far low goal, at corner
@@ -72,6 +72,6 @@ void maxFlywheel() {
 
 void toggleFlywheelRamp() {
   FlywheelRamp.set(!FlywheelRamp.value());
-  Controller1.Screen.clearLine(1);
+  //Controller1.Screen.clearLine(1);
   Controller1.Screen.clearLine(3);
 }

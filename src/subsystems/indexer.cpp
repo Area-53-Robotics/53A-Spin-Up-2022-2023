@@ -3,6 +3,7 @@
 #include "subsystems\indexer.h"
 
 //int startingPosition = 160;
+float delay = 0.09;
 
 void startIndexer() {
   //Indexer.rotateFor(forward, startingPosition, degrees, 100, velocityUnits::pct, false);
@@ -18,11 +19,28 @@ void updateIndexer() {
   }*/
 }
 
+void increaseDelay() {
+  delay += 0.01;
+  printDelay();
+}
+
+void decreaseDelay() {
+  delay -= 0.01;
+  printDelay();
+}
+
+void printDelay() {
+  controllerScreen.lock();
+  Controller1.Screen.setCursor(1, 0);
+  Controller1.Screen.print("Indexer delay: %4.2f s", delay);
+  controllerScreen.unlock();
+}
+
 void shoot() {
-  Indexer.rotateTo(70, degrees, 100, velocityUnits::pct); //90, 60, 55, 40, 50, 65, 75, 70
+  Indexer.rotateTo(73, degrees, 100, velocityUnits::pct); //90, 60, 55, 40, 50, 65, 75, 70
   Indexer.rotateTo(0, degrees, 100, velocityUnits::pct);
   if (Controller1.ButtonB.pressing()) {
-    wait(0.09, sec); //0.1, 0.08, 0.09
+    wait(delay, sec); //0.1, 0.08, 0.09
     shoot();
   }
   /*Indexer.set(true);
