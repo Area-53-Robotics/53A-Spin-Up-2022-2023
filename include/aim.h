@@ -3,3 +3,4 @@
 #pragma once
 #include "vex.h"
 
+float getDiskVelocity();

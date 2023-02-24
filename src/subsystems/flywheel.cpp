@@ -3,7 +3,6 @@
 #include "subsystems\flywheel.h"
 
 mutex controllerScreen;
-const float contactRadius = 4; //inches from flywheel axle to contact point of flywheel and disk
 
 int printFlywheelInfo() { //int because required for task
   int cycleCount = 0;
@@ -15,8 +14,8 @@ int printFlywheelInfo() { //int because required for task
     if (FlywheelRamp.value()) { //Dashes indicate flywheel ramp is up
       cycleCount++;
       if (cycleCount == 1) {
-        /*Controller1.Screen.setCursor(1, 0);
-        Controller1.Screen.print("==================");*/
+        Controller1.Screen.setCursor(1, 0);
+        Controller1.Screen.print("==================");
         Controller1.Screen.setCursor(3, 0);
         Controller1.Screen.print("==================");
       } else if (cycleCount == 3) {
@@ -40,46 +39,4 @@ void setFlywheelSpeed(float speed, velocityUnits units) {
 void changeFlywheelSpeed(float speedDifference, velocityUnits units) {
   float speed = Flywheel.velocity(units);
   setFlywheelSpeed(speed + speedDifference, units);
-}
-
-void incrementFlywheel() {
-  changeFlywheelSpeed(10, rpm);
-}
-
-void decrementFlywheel() {
-  changeFlywheelSpeed(-10, rpm);
-}
-
-void stopFlywheel() {
-  Flywheel.stop(coast);
-  //FlywheelLower.stop(coast);
-}
-
-void closestFlywheel() { //To shoot from just outside close low goal (at its corner)
-  setFlywheelSpeed(350, rpm);
-}
-
-void rollerFlywheel() { //To shoot from roller
-  setFlywheelSpeed(385, rpm);
-}
-
-void lowGoalFlywheel() { //To shoot from just inside far low goal, at corner
-  setFlywheelSpeed(500, rpm);
-}
-
-void maxFlywheel() {
-  setFlywheelSpeed(100, velocityUnits::pct);
-}
-
-void toggleFlywheelRamp() {
-  FlywheelRamp.set(!FlywheelRamp.value());
-  //Controller1.Screen.clearLine(1);
-  Controller1.Screen.clearLine(3);
-}
-
-float getDiskVelocity() { //inches per second
-  float motorRPM = Flywheel.velocity(velocityUnits::rpm);
-  float wheelRPM = motorRPM * 6;
-  float diskVelocity = (M_PI * contactRadius * wheelRPM) / 30;
-  return diskVelocity;
 }

@@ -24,6 +24,7 @@
 #include "subsystems\expander.h"
 #include "subsystems\drivetrain.h"
 #include "subsystems\indexer.h"
+#include "subsystems\flywheelButtons.h"
 #include "autonomous\autonMovement.h"
 #include "autonomous\autonSelector.h"
 #include "autonomous\autonPrograms.h"
