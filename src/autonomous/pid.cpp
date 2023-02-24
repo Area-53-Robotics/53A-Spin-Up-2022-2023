@@ -3,7 +3,7 @@
 #include "autonomous\pid.h"
 
 PID::PID(float (*process)(), float target, float kP, float kI, float kD) 
-  : measurement(process), proportionalCoefficient(kP), integralCoefficient(kI), derivativeCoefficient(kD) {
+  : measurement(process), setPoint(target), proportionalCoefficient(kP), integralCoefficient(kI), derivativeCoefficient(kD) {
     currentError = 0;
     totalError = 0;
     previousError = 0;

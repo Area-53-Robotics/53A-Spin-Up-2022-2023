@@ -149,10 +149,12 @@ void rotateBothSides(float angle, turnType direction, float initialSpeed, bool s
 }
  */
 void rotate(float angle, turnType direction, float margin, bool oneSide) {
-  PID turnSpeedController = PID(getRotation, direction == right ? angle : angle * -1, 0.5);
+  PID turnSpeedController = PID(getRotation, direction == right ? angle : angle * -1, 0.4);
   float turnSpeed;
   do {
     turnSpeed = turnSpeedController.update();
+    Controller1.Screen.setCursor(0, 1);
+    Controller1.Screen.print("Speed: %3.2f", turnSpeed);
     if (!oneSide) {
       LeftFront.spin(forward, turnSpeed, pct);
       LeftBack.spin(forward, turnSpeed, pct);
@@ -168,4 +170,11 @@ void rotate(float angle, turnType direction, float margin, bool oneSide) {
       }
     }
   } while (fabs(turnSpeed) > margin);
+  LeftFront.stop();
+  LeftBack.stop();
+  RightFront.stop();
+  RightBack.stop();
+  Controller1.Screen.setCursor(1, 0);
+  Controller1.Screen.clearLine();
+  Controller1.Screen.print("Done!");
 }

@@ -69,8 +69,9 @@ void updateDistance() {
 float getDistanceToGoal() {
   positionLock.lock();
   updateDistance();
-  return sqrt(pow(xDifference, 2) + pow(yDifference, 2));
+  float distance = sqrt(pow(xDifference, 2) + pow(yDifference, 2));
   positionLock.unlock();
+  return distance;
 }
 
 float getAngleToGoal() {

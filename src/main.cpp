@@ -48,8 +48,8 @@ void usercontrol(void) {
   //Indexer.set(false);
   Expander.set(false);
   FlywheelRamp.set(false);
-  //closestFlywheel();
-  startOdometry(122.63, 20, 0);
+  closestFlywheel();
+  startOdometry(122.63, 120, 0);
 
   //Button callbacks
   Controller1.ButtonDown.pressed(closestFlywheel);
@@ -60,7 +60,7 @@ void usercontrol(void) {
   Controller1.ButtonB.pressed(shoot);
   Controller1.ButtonRight.pressed(decrementFlywheel);
   Controller1.ButtonUp.pressed(incrementFlywheel);
-  Controller1.ButtonLeft.pressed(rollerFlywheel);
+  Controller1.ButtonLeft.pressed(lowGoalFlywheel);
   Controller1.ButtonR2.pressed(increaseDelay);
   Controller1.ButtonL2.pressed(decreaseDelay);
 

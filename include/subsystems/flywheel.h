@@ -26,3 +26,5 @@ void lowGoalFlywheel();
 void maxFlywheel();
 
 void toggleFlywheelRamp();
+
+float getDiskVelocity();

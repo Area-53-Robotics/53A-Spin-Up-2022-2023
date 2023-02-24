@@ -3,6 +3,7 @@
 #include "subsystems\flywheel.h"
 
 mutex controllerScreen;
+const float contactRadius = 4; //inches from flywheel axle to contact point of flywheel and disk
 
 int printFlywheelInfo() { //int because required for task
   int cycleCount = 0;
@@ -74,4 +75,11 @@ void toggleFlywheelRamp() {
   FlywheelRamp.set(!FlywheelRamp.value());
   //Controller1.Screen.clearLine(1);
   Controller1.Screen.clearLine(3);
+}
+
+float getDiskVelocity() { //inches per second
+  float motorRPM = Flywheel.velocity(velocityUnits::rpm);
+  float wheelRPM = motorRPM * 6;
+  float diskVelocity = (M_PI * contactRadius * wheelRPM) / 30;
+  return diskVelocity;
 }
