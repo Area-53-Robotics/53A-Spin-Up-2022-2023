@@ -14,3 +14,5 @@ void decreaseDelay();
 void printDelay();
 
 void shoot();
+
+void releaseIndexer();

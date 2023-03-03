@@ -8,23 +8,17 @@ void test() { //1
   rotate(90, right);
 }
 
-void rightHalfWP() { //2
-  setFlywheelSpeed(475);
-  move(24, 50);
-  wait(100, msec);
-  rotate(45, right);
-  move(18, 50);
-  wait(100, msec);
-  rotate(45, right);
-  setDriveTimeout(3);
-  move(12, 20);
-  rotateRoller(-90);
-  move(-12, 50);
-  wait(100, msec);
-  rotate(10, right);
+void rightHalfWinPoint() { //2
+  InertialSensor.resetRotation();
+  setFlywheelSpeed(470);
+  farRoller();
+  wait(1, sec);
+  move(-5, 50);
+  spinIntake(forward);
+  rotate(-70, right, 0.5);
+  wait(2, sec);
   shoot();
-  setFlywheelSpeed(480);
-  wait(2, seconds);
+  wait(3, sec);
   shoot();
 }
 
@@ -51,18 +45,19 @@ void lowGoal() { //4
   shoot();
 }
 
-void roller() { //5
+void closeRoller() { //5
   setDriveTimeout(5);
   move(1.5, 20);
   rotateRoller(-90);
 }
 
-void rollerLowGoal() { //6
+void closeRollerLowGoal() { //6
   setFlywheelSpeed(300);
-  roller();
+  closeRoller();
+  wait(100, msec);
   move(-2, 50);
   wait(200, msec);
-  rotate(90, left);
+  rotate(90, right);
   wait(2, seconds);
   shoot();
   wait(2, seconds);
@@ -74,33 +69,48 @@ void skillsRoller() { //7
   move(1.5, 20);
   rotateRoller(-180, true);
   
-  /*move(-24, 50);
-  rotateBothSides(90, right);
-  move(36, 30);
-  rotateRoller(-180, true);
-  move(-12, 50);
-  rotateBothSides(135, right);
-  expand();
-  move(150, 30);*/
 }
 
-void farSideRoller() {
+void farRoller() { //8
+setDriveTimeout(2);
   move(-16, 30);
   rotate(90, left, 2);
   move(5, 20);
   rotateRoller(-90);
 }
 
-void replay() {
-  char voltage[8] = "0";
+void leftHalfWinPoint() { //9
+  setFlywheelSpeed(450);
+  closeRoller();
+  wait(1, sec);
+  move(-5, 50);
+  rotate(10, right, 0.5);
+  shoot();
+  wait(1, sec);
+  shoot();
+}
+
+void fullWinPoint() { //10
+  rightHalfWinPoint();
+  rotate(120, left, 0.5);
+  setDriveTimeout(10);
+  move(136, 100);
+  setDriveTimeout(2);
+  rotate(45, left, 1);
+  move(8, 30);
+  rotateRoller(-90);
+}
+
+void replay() { //11
+  char velocity[8] = "0";
   std::ifstream autonFile("recordedAuton.txt");
   while(!autonFile.is_open()) {
     wait(20, msec);
   }
-  while (sizeof(voltage) != 0) {
+  while (1) {
     for (motor recordedMotor : recordedMotors) {
-      autonFile.getline(voltage, 8);
-      recordedMotor.spin(forward, atof(voltage), volt);
+      autonFile.getline(velocity, 8);
+      recordedMotor.spin(forward, atof(velocity), rpm);
     }
     wait(20, msec);
   }

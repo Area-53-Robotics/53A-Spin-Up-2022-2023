@@ -5,18 +5,22 @@
 
 void test();
 
-void rightHalfWP();
+void rightHalfWinPoint();
 
 void skills();
 
 void lowGoal();
 
-void roller();
+void closeRoller();
 
-void rollerLowGoal();
+void closeRollerLowGoal();
 
 void skillsRoller();
 
-void farSideRoller();
+void farRoller();
+
+void leftHalfWinPoint();
+
+void fullWinPoint();
 
 void replay();

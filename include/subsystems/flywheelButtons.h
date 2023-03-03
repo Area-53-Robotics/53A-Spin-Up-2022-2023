@@ -7,8 +7,6 @@ void incrementFlywheel();
 
 void decrementFlywheel();
 
-void stopFlywheel();
-
 void closestFlywheel();
 
 void rollerFlywheel();

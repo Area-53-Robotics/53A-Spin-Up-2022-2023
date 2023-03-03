@@ -47,3 +47,7 @@ void shoot() {
   wait(0.03, sec);
   Indexer.set(false);*/
 }
+
+void releaseIndexer() {
+  Indexer.stop(coast);
+}

@@ -14,12 +14,15 @@ int record() {
   Controller1.Screen.print("File open");
   while (recording) {
     for (motor recordedMotor : recordedMotors) {
-      autonFile << recordedMotor.voltage();
+      autonFile << recordedMotor.velocity(rpm);
       autonFile << "\n";
     }
     task::sleep(20);
   }
   autonFile.close();
+  Controller1.Screen.clearLine(1);
+  Controller1.Screen.setCursor(1, 0);
+  Controller1.Screen.print("Closing file...");
   while (autonFile.is_open()) {
     task::sleep(20);
   }

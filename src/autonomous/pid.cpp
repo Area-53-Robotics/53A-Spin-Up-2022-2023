@@ -11,10 +11,18 @@ PID::PID(float (*process)(), float target, float kP, float kI, float kD)
   }
 
 float PID::update() {
+  guard.lock();
   currentError = setPoint - measurement();
   totalError += currentError;
   errorChange = currentError - previousError;
   previousError = currentError;
 
+  guard.unlock();
   return currentError * proportionalCoefficient + totalError * integralCoefficient + errorChange * derivativeCoefficient;
+}
+
+void PID::set(float target) {
+  guard.lock();
+  setPoint = target;
+  guard.unlock();
 }

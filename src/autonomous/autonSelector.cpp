@@ -2,10 +2,10 @@
 
 #include "autonomous\autonSelector.h"
 
-int selectedAuton = 8;
+int selectedAuton = 2;
 
 void changeAuton() { //Auton selector
-  if (selectedAuton >= 9) {
+  if (selectedAuton >= 11) {
     selectedAuton = 0;
   } else {
     selectedAuton++;
@@ -37,11 +37,11 @@ void printAutonDescription() {
     break;
 
     case 5:
-    autonDescription = "Spin roller";
+    autonDescription = "Spin driver-side roller";
     break;
 
     case 6:
-    autonDescription = "Spin roller and preloads to low goal";
+    autonDescription = "Close roller and preloads to low goal";
     break;
 
     case 7:
@@ -53,7 +53,16 @@ void printAutonDescription() {
     break;
 
     case 9:
+    autonDescription = "Close roller and preloads to high goal";
+    break;
+
+    case 10:
+    autonDescription = "Both rollers and preloads to high goal";
+    break;
+
+    case 11:
     autonDescription = "Replay recorded auton";
+    break;
 
     default:
     autonDescription = "Index out of bounds";
@@ -71,7 +80,7 @@ void runAuton() {
       break;
 
       case 2:
-      rightHalfWP();
+      rightHalfWinPoint();
       break;
 
       case 3:
@@ -83,11 +92,11 @@ void runAuton() {
       break;
 
       case 5:
-      roller();
+      closeRoller();
       break;
 
       case 6:
-      rollerLowGoal();
+      closeRollerLowGoal();
       break;
 
       case 7:
@@ -95,9 +104,19 @@ void runAuton() {
       break;
 
       case 8:
-      farSideRoller();
+      farRoller();
+      break;
 
       case 9:
+      leftHalfWinPoint();
+      break;
+
+      case 10:
+      fullWinPoint();
+      break;
+
+      case 11:
       replay();
+      break;
     }
 }

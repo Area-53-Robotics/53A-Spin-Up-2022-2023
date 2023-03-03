@@ -7,24 +7,12 @@ extern mutex controllerScreen;
 
 int printFlywheelInfo();
 
+int updateFlywheelSpeed();
+
+float getFlywheelSpeed();
+
 void setFlywheelSpeed(float speed, velocityUnits units = rpm);
 
-void changeFlywheelSpeed(float speedDifference);
-
-void incrementFlywheel();
-
-void decrementFlywheel();
+void changeFlywheelSpeed(float speedDifference, velocityUnits units = rpm);
 
 void stopFlywheel();
-
-void closestFlywheel();
-
-void rollerFlywheel();
-
-void lowGoalFlywheel();
-
-void maxFlywheel();
-
-void toggleFlywheelRamp();
-
-float getDiskVelocity();

@@ -22,6 +22,7 @@ void pre_auton(void) {
   FlywheelRamp.set(false);
   drawPreautonMenu();
   Brain.Screen.pressed(brainPressEvent);
+  //task flywheelSpeed(updateFlywheelSpeed);
 }
 
 void autonomous(void) {
@@ -50,17 +51,18 @@ void usercontrol(void) {
   FlywheelRamp.set(false);
   closestFlywheel();
   startOdometry(122.63, 120, 0);
+  setTimers();
 
   //Button callbacks
   Controller1.ButtonDown.pressed(closestFlywheel);
   Controller1.ButtonX.pressed(stopFlywheel);
   //Controller1.ButtonY.pressed(toggleRecording);
-  Controller1.ButtonY.pressed(printRelativePosition);
+  Controller1.ButtonY.pressed(releaseIndexer);
   Controller1.ButtonA.pressed(toggleFlywheelRamp);
   Controller1.ButtonB.pressed(shoot);
   Controller1.ButtonRight.pressed(decrementFlywheel);
   Controller1.ButtonUp.pressed(incrementFlywheel);
-  Controller1.ButtonLeft.pressed(lowGoalFlywheel);
+  Controller1.ButtonLeft.pressed(rollerFlywheel);
   Controller1.ButtonR2.pressed(increaseDelay);
   Controller1.ButtonL2.pressed(decreaseDelay);
 

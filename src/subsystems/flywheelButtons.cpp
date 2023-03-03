@@ -10,17 +10,12 @@ void decrementFlywheel() {
   changeFlywheelSpeed(-10, rpm);
 }
 
-void stopFlywheel() {
-  Flywheel.stop(coast);
-  //FlywheelLower.stop(coast);
-}
-
 void closestFlywheel() { //To shoot from just outside close low goal (at its corner)
   setFlywheelSpeed(350, rpm);
 }
 
 void rollerFlywheel() { //To shoot from roller
-  setFlywheelSpeed(385, rpm);
+  setFlywheelSpeed(400, rpm);
 }
 
 void lowGoalFlywheel() { //To shoot from just inside far low goal, at corner

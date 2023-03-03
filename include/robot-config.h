@@ -17,6 +17,7 @@ extern digital_out FlywheelRamp;
 extern rotation TrackParallel;
 extern rotation TrackPerpendicular;
 extern motor Indexer;
+extern rotation FlywheelSensor;
 
 /**
  * Used to initialize code/tasks/devices added using tools in VEXcode Pro.
