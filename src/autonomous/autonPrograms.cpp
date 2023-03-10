@@ -18,6 +18,7 @@ void rightHalfWinPoint() { //2
   rotate(-70, right, 0.5);
   wait(2, sec);
   shoot();
+  setFlywheelSpeed(470);
   wait(3, sec);
   shoot();
 }
@@ -65,10 +66,26 @@ void closeRollerLowGoal() { //6
 }
 
 void skillsRoller() { //7
-  setDriveTimeout(8);
+  setFlywheelSpeed(470);
+  setDriveTimeout(5);
   move(1.5, 20);
-  rotateRoller(-180, true);
-  
+  rotateRoller(-180);
+  move(-10, 50);
+  rotate(90, right, 0.5);
+  spinIntake(forward);
+  move(26, 20);
+  stopIntake();
+  move(2, 20);
+  rotateRoller(180);
+  move(-5, 50);
+  spinIntake(forward);
+  rotate(110, right);
+  for (int numberOfShots = 0; numberOfShots <= 3; numberOfShots++) {
+    shoot();
+    wait(3, sec);
+  }
+  rotate(45, right);
+  expand();
 }
 
 void farRoller() { //8

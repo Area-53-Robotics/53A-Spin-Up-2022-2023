@@ -50,7 +50,7 @@ void usercontrol(void) {
   Expander.set(false);
   FlywheelRamp.set(false);
   closestFlywheel();
-  startOdometry(122.63, 120, 0);
+  //startOdometry(122.63, 120, 0);
   setTimers();
 
   //Button callbacks
