@@ -59,7 +59,8 @@ void usercontrol(void) {
   //Controller1.ButtonY.pressed(toggleRecording);
   Controller1.ButtonY.pressed(releaseIndexer);
   Controller1.ButtonA.pressed(toggleFlywheelRamp);
-  Controller1.ButtonB.released(shoot);
+  Controller1.ButtonR2.pressed(shoot);
+  Controller1.ButtonB.pressed(toggleIndexer);
   Controller1.ButtonRight.pressed(decrementFlywheel);
   Controller1.ButtonUp.pressed(incrementFlywheel);
   Controller1.ButtonLeft.pressed(rollerFlywheel);

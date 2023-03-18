@@ -5,6 +5,8 @@
 
 void startIndexer();
 
+void toggleIndexer();
+
 void updateIndexer();
 
 void increaseDelay();

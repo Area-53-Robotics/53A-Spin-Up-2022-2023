@@ -2,6 +2,7 @@
 
 #include "subsystems\firing.h"
 
+mutex indexerLock;
 //int startingPosition = 160;
 float delay = 0.11;
 bool shooting = false;
@@ -10,12 +11,20 @@ void startIndexer() {
   //Indexer.rotateFor(forward, startingPosition, degrees, 100, velocityUnits::pct, false);
 }
 
+void toggleIndexer() {
+  shooting = !shooting;
+}
+
 void updateIndexer() {
-  if (Controller1.ButtonR2.pressing()) {
+  indexerLock.lock();
+  if (shooting) {
     Indexer.spin(forward, 100, pct);
-  } else if (!shooting) {
+  } else if (Controller1.ButtonR1.pressing()) {
+    Indexer.spin(reverse, 100, pct);
+  } else {
     Indexer.stop();
   }
+  indexerLock.unlock();
 }
 
 void increaseDelay() {
@@ -36,14 +45,14 @@ void printDelay() {
 }
 
 void shoot() {
-  shooting = true;
+  indexerLock.lock();
   if (!CompressionBar.value()) {
     CompressionBar.set(true);
     wait(0.03, sec);
   }
   Indexer.rotateFor(forward, 720, degrees, 100, velocityUnits::pct);
   CompressionBar.set(false);
-  shooting = false;
+  indexerLock.unlock();
 }
 
 void toggleCompression() {
