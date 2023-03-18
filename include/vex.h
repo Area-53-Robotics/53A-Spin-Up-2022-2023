@@ -23,7 +23,7 @@
 #include "subsystems\intake.h"
 #include "subsystems\expander.h"
 #include "subsystems\drivetrain.h"
-#include "subsystems\indexer.h"
+#include "subsystems\firing.h"
 #include "subsystems\flywheelButtons.h"
 #include "autonomous\autonMovement.h"
 #include "autonomous\autonSelector.h"
