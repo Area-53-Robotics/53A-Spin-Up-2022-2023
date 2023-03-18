@@ -1,4 +1,4 @@
-//Header for firing.cpp
+//Header for indexer.cpp
 
 #pragma once
 #include "vex.h"
@@ -14,7 +14,5 @@ void decreaseDelay();
 void printDelay();
 
 void shoot();
-
-void toggleCompression();
 
 void releaseIndexer();

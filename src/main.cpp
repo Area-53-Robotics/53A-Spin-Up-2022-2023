@@ -59,13 +59,12 @@ void usercontrol(void) {
   //Controller1.ButtonY.pressed(toggleRecording);
   Controller1.ButtonY.pressed(releaseIndexer);
   Controller1.ButtonA.pressed(toggleFlywheelRamp);
-  Controller1.ButtonB.released(shoot);
+  Controller1.ButtonB.pressed(shoot);
   Controller1.ButtonRight.pressed(decrementFlywheel);
   Controller1.ButtonUp.pressed(incrementFlywheel);
   Controller1.ButtonLeft.pressed(rollerFlywheel);
-  /* Controller1.ButtonR2.pressed(increaseDelay);
-  Controller1.ButtonL2.pressed(decreaseDelay); */
-  Controller1.ButtonL2.pressed(toggleCompression);
+  Controller1.ButtonR2.pressed(increaseDelay);
+  Controller1.ButtonL2.pressed(decreaseDelay);
 
   task flyWheelInfo(printFlywheelInfo);
   setDriveStopping(brake);
@@ -74,7 +73,7 @@ void usercontrol(void) {
     updateDriveSpeed();
     updateIntake();
     checkExpansion();
-    updateIndexer();
+    //updateIndexer();
     
     wait(20, msec); // Sleep the task for a short amount of time to
                     // prevent wasted resources.

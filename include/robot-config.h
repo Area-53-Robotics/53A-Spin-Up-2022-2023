@@ -18,7 +18,6 @@ extern rotation TrackParallel;
 extern rotation TrackPerpendicular;
 extern motor Indexer;
 extern rotation FlywheelSensor;
-extern digital_out CompressionBar;
 
 /**
  * Used to initialize code/tasks/devices added using tools in VEXcode Pro.
