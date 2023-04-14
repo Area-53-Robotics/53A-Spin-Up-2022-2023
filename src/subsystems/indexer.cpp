@@ -48,6 +48,13 @@ void shoot() {
   Indexer.set(false);*/
 }
 
+void repeatShot(int numberOfShots, float delay) {
+  for (int shotsTaken = 0; shotsTaken <= numberOfShots; shotsTaken++) {
+    shoot();
+    wait(delay, sec);
+  }
+}
+
 void releaseIndexer() {
   Indexer.stop(coast);
 }

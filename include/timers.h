@@ -8,3 +8,5 @@ void setTimers();
 void notify();
 
 int continuousControllerRumble();
+
+void stopRumble();

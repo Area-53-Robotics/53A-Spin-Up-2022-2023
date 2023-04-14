@@ -15,4 +15,6 @@ void printDelay();
 
 void shoot();
 
+void repeatShot(int numberOfShots = 3, float delay = 3);
+
 void releaseIndexer();

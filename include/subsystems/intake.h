@@ -14,3 +14,5 @@ void setIntakeReverse();
 void updateIntake();
 
 void rotateRoller(float angle, bool blocking = true);
+
+void setIntakeTimeout(float time);

@@ -45,3 +45,8 @@ void rotateRoller(float rollerAngle, bool blocking) {
   Intake.spinFor(forward, wheelAngle * 6, degrees, 100, velocityUnits::pct, false);
   Roller.spinFor(forward, wheelAngle, degrees, 100, velocityUnits::pct, blocking);
 }
+
+void setIntakeTimeout(float time) {
+  Intake.setTimeout(time, seconds);
+  Roller.setTimeout(time, seconds);
+}

@@ -10,12 +10,12 @@ void test() { //1
 
 void rightHalfWinPoint() { //2
   InertialSensor.resetRotation();
-  setFlywheelSpeed(470);
+  setFlywheelSpeed(450);
   farRoller();
   wait(1, sec);
   move(-5, 50);
   spinIntake(forward);
-  rotate(-70, right, 0.5);
+  rotate(-73, right, 0.5);
   wait(2, sec);
   shoot();
   setFlywheelSpeed(470);
@@ -66,33 +66,44 @@ void closeRollerLowGoal() { //6
 }
 
 void skillsRoller() { //7
-  setFlywheelSpeed(470);
+  setFlywheelSpeed(425);
   setDriveTimeout(5);
   move(1.5, 20);
-  rotateRoller(-180);
+  rotateRoller(-180); //Get starting roller
   move(-10, 50);
-  rotate(90, right, 0.5);
-  spinIntake(forward);
+  rotate(90, right, 0.5); //Go toward other roller in starting corner
+  spinIntake(forward); //Pick up disk that's in the way
   move(26, 20);
-  stopIntake();
+  stopIntake(); //Don't spin roller too early
   move(2, 20);
-  rotateRoller(180);
-  move(-5, 50);
+  rotateRoller(180); //Get other roller in starting corner
+  move(-25, 40);
+  spinIntake(forward); //Make sure earlier disk finished intaking
+  rotate(100, right); //Turn to goal on starting side
+  repeatShot(); //Shoot volley of 3
+  setFlywheelSpeed(400);
+  rotate(180, right);
+  stopIntake();
+  move(10, 40); //Knock down 3-stack
+  move(-10, 60);
   spinIntake(forward);
-  rotate(110, right);
-  for (int numberOfShots = 0; numberOfShots <= 3; numberOfShots++) {
-    shoot();
-    wait(3, sec);
-  }
-  rotate(45, right);
+  move(30, 20); //Pick up 3-stack behind shooting position
+  rotate(10, left);
+  repeatShot(); //Shoot in other goal from before (slightly closer and less full)
+  rotate(0, right);
+  move(18, 50); //Get back to auton line
+  rotate(45, right); //Turn to center
   expand();
+  wait(2, seconds);
+  move(30, 50);
 }
 
 void farRoller() { //8
-setDriveTimeout(2);
-  move(-16, 30);
+  setDriveTimeout(2);
+  setIntakeTimeout(3);
+  move(-18, 30);
   rotate(90, left, 2);
-  move(5, 20);
+  move(4.5, 20);
   rotateRoller(-90);
 }
 
